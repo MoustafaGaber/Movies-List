@@ -55,6 +55,9 @@ main {
   position: relative;
   background-color: var(--color-primary);
 }
+ul{
+    list-style-type: none;
+}
 header {
   margin-top: 1.25em;
   @media (min-width: 40rem/*640px*/) {
@@ -70,6 +73,7 @@ header img {
   margin-right: auto; /* mx-auto */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* drop-shadow-md */
 }
+
 .wrapper {
         padding-left: 1.25rem;   /* px-5 */
         padding-right: 1.25rem;  /* px-5 */
@@ -141,6 +145,7 @@ header img {
   gap: 1.25rem;                          /* gap-5 ≈ 20px */
 }
 
+
 /* responsive breakpoints */
 @media (min-width: 480px) { /* xs:grid-cols-2 */
   .all-movies ul {
@@ -161,6 +166,8 @@ header img {
 }
 
 .movie-card {
+    width: 220px;
+    height: 400px;
   background-color: #1f1f1f; /* bg-dark-100 تقريبًا */
   padding: 1.25rem;          /* p-5 */
   border-radius: 1rem;        /* rounded-2xl */
@@ -170,6 +177,9 @@ header img {
    
 /* صورة الكارت */
 .movie-card img {
+    display: block;
+   
+
   border-radius: 0.5rem; /* rounded-lg */
   width: 100%;
   height: auto;
@@ -247,3 +257,5 @@ header img {
         background-clip: text; /* clip للـ text في المتصفحات الأخرى */
         color: transparent;     /* fallback للنص */
   }
+/* ul الرئيسي */
+
