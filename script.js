@@ -126,7 +126,8 @@ function debounce(func, delay) {
 
 const changeHandler = async (event) => {
   const query = event.target.value.trim();
-
+  const searchTitle = document.getElementById("all-movies");
+  searchTitle.textContent = query ? `Search Results for "${query}"` : "All Movies";
   if (query === "") {
     await fetchMovies(); // استدعاء بدون فلتر لجلب الكل
     displayMovies();
@@ -135,12 +136,14 @@ const changeHandler = async (event) => {
   
   // لا تبحث إذا كان النص فارغاً أو أقل من 3 أحرف (اختياري)
   if (query.length < 3) return; 
-
+     
   try {
     await fetchMovies(query);
     displayMovies();
   } catch (error) {
     console.error("خطأ في جلب البيانات:", error);
+  }finally {
+    
   }
 };
 
