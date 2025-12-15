@@ -28,8 +28,8 @@
               <input
                 type="text"
                 placeholder="Search through thousands of movies"
-                value=""
-                onchange=""
+                id="searchInput"
+                onchange="changeHandler(event)"
               />
             </div>
           </div>
@@ -37,9 +37,14 @@
         <section class="all-movies">
           <h2>All Movies</h2>
 
-          <p>
-             spinner or errorMessage
-          </p>
+         
+          <!-- spinner -->
+          <div class="spinner"> 
+            <span id="loader" class="loader" ></span>
+            
+          </div>
+          <p id="errorMessage"></p>
+        
 
           <ul id="movies-container">
             <li>

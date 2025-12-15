@@ -45,6 +45,7 @@ h1 {
 h2 {
   font-size: 1.5rem;
   font-weight: bold;
+  margin-bottom: 20px;
   @media (min-width: 40rem/*640px*/) {
     font-size: 30px;
     line-height: 1.2;
@@ -286,3 +287,38 @@ header img {
   }
 /* ul الرئيسي */
 
+/* loader */
+
+.spinner{
+    display: flex;
+  justify-content: center;
+}
+
+  .loader {
+            display: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            position: relative;
+            transform:rotate(45deg);
+            background: #fff;
+          }
+          .loader::before {
+            content: "";
+            box-sizing: border-box;
+            position: absolute;
+            inset: 0px;
+            border-radius: 50%;
+            border:24px solid #FF3D00;
+            animation: prixClipFix 2s infinite linear;
+          }
+           .loader.active{
+            display: block;
+           }
+          @keyframes prixClipFix {
+              0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
+              25%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
+              50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
+              75%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)}
+              100% {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)}
+          }

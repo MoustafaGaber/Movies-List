@@ -2,6 +2,8 @@
 const API_BASE_URL = "https://api.themoviedb.org/3";
 const API_KEY="eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4MDJlOWZhOWU5MzEwNGVlYzljZjFhMzY4YzY3NmQ4OSIsIm5iZiI6MTc0MDMzMTc4My4xOTIsInN1YiI6IjY3YmI1YjA3YTRiZjFjMTkyOGJlZTNlYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.QbFt85KEDPix8Bba3ccPNnON_V7jf2eeg-ldTmaSJ3Q"
 
+ const errorMessage = document.getElementById("errorMessage");
+
 const API_OPTIONS = {
   method: "GET",
   headers: {
@@ -14,24 +16,37 @@ let movieList = [];
 
 const fetchMovies = async (query = "") => {
   try {
+     loader().on();
     // بناء رابط الـ API مع إضافة الـ API key
     const endpoint = query
      ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
         : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
 
-    const response = await fetch(endpoint,API_OPTIONS);
+    const response = await fetch(endpoint,API_OPTIONS)
+    
 
     if (!response.ok) {
       throw new Error("Failed to fetch movies");
     }
 
     const data = await response.json();
-    console.log(data);
+     movieList = data.results || [];
+     console.log(movieList);
+     if (movieList.length === 0) {
+      errorMessage.textContent = "No movies found for the given search.";
+    } else {
+      errorMessage.textContent = ""; // مسح رسالة الخطأ إذا كانت موجودة
+    }   
+     
 
-    movieList = data.results || [];
 
   } catch (error) {
     console.error(`Error fetching movies: ${error}`);
+   
+    errorMessage.textContent = "An error occurred while fetching movies. Please try again later.";
+
+  }finally {
+    setTimeout(() => { loader().off(); }, 1000);
   }
 };
 // fetchMovies().then(() => {
@@ -76,6 +91,34 @@ const displayMovies = () => {
   });
 };
 
-fetchMovies().then(() =>{
-    displayMovies();
-});
+// fetchMovies().then(() =>{
+//     displayMovies();
+// });
+const loader = () => {
+  const spinner = document.getElementById("loader");
+  return {
+    //methods object
+    on: function() {
+      spinner?.classList.add("active");
+    },
+    //shorthand of off: function()
+    off() {
+      spinner?.classList.remove("active");
+    },
+  };
+}
+const changeHandler = async (event) => {
+  const query = event.target.value.trim();
+  await fetchMovies(query);
+  displayMovies();
+}
+const searchInput = document.getElementById("searchInput");
+searchInput.addEventListener("change", changeHandler);
+
+await fetchMovies();
+
+displayMovies();
+
+
+
+
