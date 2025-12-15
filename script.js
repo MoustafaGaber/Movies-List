@@ -107,16 +107,52 @@ const loader = () => {
     },
   };
 }
+// const changeHandler = async (event) => {
+//   const query = event.target.value.trim();
+//   await fetchMovies(query);
+//   displayMovies();
+// }
+// const searchInput = document.getElementById("searchInput");
+// searchInput.addEventListener("change", changeHandler);
+
+// دالة لتأخير التنفيذ (Debounce)
+function debounce(func, delay) {
+  let timeoutId;
+  return (...args) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func.apply(this, args), delay);
+  };
+}
+
 const changeHandler = async (event) => {
   const query = event.target.value.trim();
-  await fetchMovies(query);
-  displayMovies();
-}
+
+  if (query === "") {
+    await fetchMovies(); // استدعاء بدون فلتر لجلب الكل
+    displayMovies();
+    return;
+  }
+  
+  // لا تبحث إذا كان النص فارغاً أو أقل من 3 أحرف (اختياري)
+  if (query.length < 3) return; 
+
+  try {
+    await fetchMovies(query);
+    displayMovies();
+  } catch (error) {
+    console.error("خطأ في جلب البيانات:", error);
+  }
+};
+
 const searchInput = document.getElementById("searchInput");
-searchInput.addEventListener("change", changeHandler);
+
+// استخدام 'input' مع debounce لجعل البحث سلساً
+searchInput.addEventListener("input", debounce(changeHandler, 300));
+
+
+
 
 await fetchMovies();
-
 displayMovies();
 
 
