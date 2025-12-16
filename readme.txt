@@ -4,7 +4,7 @@ git checkout main
 git pull origin main
 
 انشاء فرع جديد في جيت هاب
-git checkout -b new-branch-name
+git checkout -b g
 git push -u origin new-branch-name
 ==================================
 to delete branch:
