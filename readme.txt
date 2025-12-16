@@ -4,13 +4,13 @@ git checkout main
 git pull origin main
 
 انشاء فرع جديد في جيت هاب
-git checkout -b g
+git checkout -b 
 git push -u origin new-branch-name
 ==================================
 to delete branch:
 git branch -D branch-name from localy
 git push origin --delete branch-name
-
+=======================================
 نصيحة للفريق:
 بعد أن يقوم زميلك بحذف فرع من السيرفر، قد يظل اسم الفرع يظهر عندك في القائمة المحلية. لتنظيف جهازك من أسماء الفروع المحذوفة، استخدم هذا الأمر:
 
