@@ -35,3 +35,12 @@ git fetch --prune
 عضو 2,تحسين التصميم والـ CSS,style/responsive-layout
 عضو 3,معالجة الأخطاء والتأكد من الأداء,refactor/optimize-performance
 عضو 4,إضافة صفحات جديدة (مثل تفاصيل الفيلم),feat/movie-details-page
+
+
+===============
+قبل ما تبدأ كل مرة 🔄
+عشان ما يحصلش تعارض:
+git checkout main
+git pull origin main
+git checkout kareem-navbar
+git merge main
