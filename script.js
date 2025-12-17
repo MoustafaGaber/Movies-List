@@ -3,7 +3,6 @@ const API_KEY =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4MDJlOWZhOWU5MzEwNGVlYzljZjFhMzY4YzY3NmQ4OSIsIm5iZiI6MTc0MDMzMTc4My4xOTIsInN1YiI6IjY3YmI1YjA3YTRiZjFjMTkyOGJlZTNlYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.QbFt85KEDPix8Bba3ccPNnON_V7jf2eeg-ldTmaSJ3Q";
 
 const errorMessage = document.getElementById("errorMessage");
-
 const API_OPTIONS = {
   method: "GET",
   headers: {
