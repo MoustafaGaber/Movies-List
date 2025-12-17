@@ -23,13 +23,13 @@
                 </select>
                 <select id="sortFilter" >
                     <option value="">Sort By</option>
-                    <option value="popularity-desc">Most Popular</option>
-                    <option value="rating-desc">Highest Rated</option>
-                    <option value="year-desc">Latest Release</option>
-                    <option value="title-asc">A-Z</option>
+                    <option value="popularity.desc">Most Popular</option>
+                    <option value="vote_average.desc">Highest Rated</option>
+                    <option value="release_date.desc">Latest Release</option>
+                    <option value="title.asc">A-Z</option>
                 </select>   
             </div>
-            <button class="clear-btn" id="clearFilters">Clear Filters</button>
+            <button class="clear-btn" id="clearBtn">Clear All</button>
             
         </div>
     </div>
@@ -37,12 +37,12 @@
         <div id="trendingSection">
             <div class="section-title">🔥 Trending Now</div>
             <div class="carousel-container">
-                <button class="carousel-btn prev-btn">◀</button>
+                <button class="carousel-btn prev-btn" id="trendingPrev">◀</button>
                 <div class="carousel" id="trendingCarousel">
                     <!-- Trending movies will be dynamically inserted here -->
                      <div class="loading">Loading trending movies...</div>
                 </div>
-                <button class="carousel-btn next-btn">▶</button>
+                <button class="carousel-btn next-btn" id="trendingNext">▶</button>
             </div>
         </div>
         <div class="section-title" id="randomSectionTitle">
@@ -53,6 +53,6 @@
         </div>
     </div>
     
-   <script src="script.js"></script> 
+   <script src="script.js" type="module"></script> 
 </body>
 </html>
