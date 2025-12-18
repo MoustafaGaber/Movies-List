@@ -261,7 +261,7 @@ async watchTrailer(movieId) {
                         <span class="movie-rating">⭐ ${movie.vote_average.toFixed(1)}</span>
                     </div>
                     <div>// أضف هذا الزر داخل الـ HTML المولد في دوال الكروت
-                <button class="trailer-btn" onclick="window.movieApp.watchTrailer(${movie.id})">
+                <button class="play-trailer-btn" onclick="window.movieApp.watchTrailer(${movie.id})">
                     ▶ Watch Trailer
                 </button></div>
                 </div>

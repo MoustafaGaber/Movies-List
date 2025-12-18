@@ -452,3 +452,38 @@ select {
     width: 100%; height: 100%;
     border: none;
 }
+/* زر التريلر في التريندينج */
+.play-trailer-btn {
+    background: #e50914;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.play-trailer-btn:hover {
+    background: #ff0a16;
+    transform: scale(1.05);
+}
+
+/* زر التريلر في الكارد العادي */
+.play-trailer-btn-small {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-top: 8px;
+    width: 100%;
+}
+
+.play-trailer-btn-small:hover {
+    background: white;
+    color: black;
+}
