@@ -9,6 +9,9 @@ class MovieExpLoader {
         this.watchlist = JSON.parse(localStorage.getItem("myWatchlist")) || [];
         this.currentFilter = { genre: "", year: "", sort: "" };
         this.searchTimeout = null;
+        // to load more than 20 movies
+        this.currentPage = 1;
+        this.isLoadingMore = false;
 
         this.init();
     }
@@ -20,8 +23,53 @@ class MovieExpLoader {
         await this.loadTrendingMovies();
         await this.loadRandomMovies();
         this.updateWatchlistCount();
+        this.setupInfiniteScroll();
     }
 
+    setupInfiniteScroll() {
+    const options = {
+        root: null,
+        rootMargin: '100px', // ابدأ التحميل قبل الوصول للنهاية بـ 100 بكسل
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            // إذا كان المستخدم يبحث أو في صفحة المفضلات، لا تفعل التمرير اللانهائي
+            const isWatchlist = document.getElementById("randomSectionTitle").textContent.includes("Watchlist");
+            
+            if (entry.isIntersecting && !this.isSearching && !isWatchlist && !this.isLoadingMore) {
+                this.loadMoreMovies();
+            }
+        });
+    }, options);
+
+    // إنشاء عنصر "مراقب" في نهاية الصفحة
+    const sentinel = document.createElement('div');
+    sentinel.id = 'infinite-scroll-sentinel';
+    document.querySelector('.main-content').appendChild(sentinel);
+    observer.observe(sentinel);
+}
+
+async loadMoreMovies() {
+    this.isLoadingMore = true;
+    this.currentPage++;
+    
+    try {
+        const response = await fetch(`${this.BASE_URL}/discover/movie?api_key=${this.API_KEY}&page=${this.currentPage}`);
+        const data = await response.json();
+        
+        const container = document.getElementById("moviesGrid");
+        // إضافة الأفلام الجديدة بجانب القديمة (استخدام += وليس =)
+        const newMoviesHTML = data.results.map(movie => this.createMovieCard(movie)).join("");
+        container.insertAdjacentHTML('beforeend', newMoviesHTML);
+        
+        this.isLoadingMore = false;
+    } catch (error) {
+        console.error("Error loading more movies:", error);
+        this.isLoadingMore = false;
+    }
+}
     setupEventListeners() {
         const searchInput = document.getElementById("searchInput");
         const genreFilter = document.getElementById("genreFilter");
@@ -85,6 +133,7 @@ async watchTrailer(movieId) {
         const clearBtn = document.getElementById("clearBtn");
         const sectionTitle = document.getElementById("randomSectionTitle");
         const trendingSection = document.getElementById("trendingSection");
+        this.currentPage=1;
 
         if (!query) {
             clearBtn?.classList.remove("show");
@@ -123,6 +172,7 @@ async watchTrailer(movieId) {
     const searchInput = document.getElementById("searchInput");
     const trendingSection = document.getElementById("trendingSection");
     const clearBtn = document.getElementById("clearBtn");
+      this.currentPage=1;
 
     this.currentFilter = {
         genre: document.getElementById("genreFilter").value,
@@ -225,14 +275,73 @@ async watchTrailer(movieId) {
             </div>`;
     }
 
-    async loadRandomMovies() {
-        try {
-            const page = Math.floor(Math.random() * 10) + 1;
-            const res = await fetch(`${this.BASE_URL}/discover/movie?api_key=${this.API_KEY}&page=${page}`);
-            const data = await res.json();
-            this.displayMovies(data.results, "moviesGrid");
-        } catch (e) { console.error(e); }
+    // async loadRandomMovies() {
+    //     try {
+    //         const page = Math.floor(Math.random() * 10) + 1;
+    //         const res = await fetch(`${this.BASE_URL}/discover/movie?api_key=${this.API_KEY}&page=${page}`);
+    //         const data = await res.json();
+    //         this.displayMovies(data.results, "moviesGrid");
+    //     } catch (e) { console.error(e); }
+    // }
+
+    async loadMoreMovies() {
+    // منع إرسال طلبات متعددة في نفس الوقت
+    if (this.isLoadingMore) return;
+
+    this.isLoadingMore = true;
+    this.currentPage++; // ننتقل للصفحة التالية في الـ API
+
+    try {
+      let url = "";
+      const query = document.getElementById("searchInput")?.value.trim();
+
+      // 1. حالة البحث اللانهائي (إذا كان هناك نص في مربع البحث)
+      if (query) {
+        url = `${this.BASE_URL}/search/movie?api_key=${this.API_KEY}&query=${encodeURIComponent(query)}&page=${this.currentPage}`;
+        if (this.currentFilter.year) {
+          url += `&primary_release_year=${this.currentFilter.year}`;
+        }
+      } 
+      // 2. حالة الفلترة اللانهائية (إذا تم اختيار سنة أو نوع أو ترتيب بدون نص بحث)
+      else if (this.currentFilter.genre || this.currentFilter.year || this.currentFilter.sort) {
+        url = `${this.BASE_URL}/discover/movie?api_key=${this.API_KEY}&page=${this.currentPage}`;
+        if (this.currentFilter.genre) url += `&with_genres=${this.currentFilter.genre}`;
+        if (this.currentFilter.year) url += `&primary_release_year=${this.currentFilter.year}`;
+        if (this.currentFilter.sort) url += `&sort_by=${this.currentFilter.sort}`;
+      } 
+      // 3. حالة التصفح العشوائي (عند فتح الموقع لأول مرة)
+      else {
+        url = `${this.BASE_URL}/discover/movie?api_key=${this.API_KEY}&page=${this.currentPage}`;
+      }
+
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (data.results && data.results.length > 0) {
+        const container = document.getElementById("moviesGrid");
+        
+        let results = data.results;
+
+        // فلترة النوع يدوياً في حالة البحث لأن API البحث لا يدعم genre_id مباشرة
+        if (query && this.currentFilter.genre) {
+          results = results.filter((movie) =>
+            movie.genre_ids.includes(parseInt(this.currentFilter.genre, 10))
+          );
+        }
+
+        // تحويل الأفلام الجديدة لـ HTML وإضافتها لنهاية الشبكة
+        const newMoviesHTML = results.map((movie) => this.createMovieCard(movie)).join("");
+        container.insertAdjacentHTML("beforeend", newMoviesHTML);
+      } else {
+        console.log("وصلت لنهاية الأفلام المتاحة.");
+      }
+
+      this.isLoadingMore = false;
+    } catch (error) {
+      console.error("خطأ أثناء تحميل المزيد من الأفلام:", error);
+      this.isLoadingMore = false;
     }
+  }
 
     displayMovies(movies, containerId) {
         const container = document.getElementById(containerId);
@@ -311,7 +420,8 @@ async watchTrailer(movieId) {
 
     // إعادة ضبط الفلاتر في الكود
     this.currentFilter = { genre: "", year: "", sort: "" };
-
+     
+    this.currentPage = 1;
     // إخفاء زر Clear All
     clearBtn.classList.remove("show");
 
