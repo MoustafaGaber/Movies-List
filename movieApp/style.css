@@ -3,18 +3,40 @@
   padding: 0;
   box-sizing: border-box;
 }
-body {
-  font-family: "Helvetica Neue", Arial sans-serif;
-  background-color: #141414;
-  color: #ffffff;
-  line-height: 1.6;
+
+:root {
+    /* الوضع المظلم (الافتراضي) */
+    --bg-color: #0f0f0f;
+    --text-color: #ffffff;
+    --card-bg: #1a1a1a;
+    --header-bg: rgba(15, 15, 15, 0.95);
 }
+
+[data-theme="light"] {
+    /* الوضع المضيء */
+    --bg-color: #f4f4f4;
+    --text-color: #1a1a1a;
+    --card-bg: #ffffff;
+    --header-bg: rgba(255, 255, 255, 0.95);
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background 0.3s, color 0.3s;
+    line-height: 1.6;
+     font-family: "Helvetica Neue", Arial sans-serif;
+}
+
+
+
+/* تأكد من تغيير أي لون ثابت (مثل أبيض أو أسود) في الكروت والهيدر ليستخدم هذه المتغيرات */
+
+
+
+
 .header {
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.8) 0%,
-    rgba(0, 0, 0, 0.4) 100%
-  );
+ background: var(--header-bg);
   padding: 20px;
   position: sticky;
   top: 0;
@@ -230,8 +252,8 @@ select {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--card-bg);
+ /* background: rgba(255, 255, 255, 0.05);*/
   border-radius: 10px;
   overflow: hidden;
   transition: all 0.3s ease;
@@ -486,4 +508,19 @@ select {
 .play-trailer-btn-small:hover {
     background: white;
     color: black;
+}
+
+.theme-btn {
+    background: transparent;
+    border: 1px solid var(--text-color);
+    color: var(--text-color);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+.theme-btn:hover {
+    transform: scale(1.1);
+    background: rgba(128, 128, 128, 0.2);
 }
