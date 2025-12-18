@@ -31,7 +31,9 @@
             </div>
             <div class="header-actions">
                 <button class="clear-btn" id="clearBtn">Clear All</button>
-                <button class="watchlist-nav-btn" id="watchListNavBtn">❤️My Watchlist <span id="watchlistCount"> 0</span></button>
+               <a href="watchlist.html" class="watchlist-nav-btn" id="watchListNavBtn" style="text-decoration: none; display: inline-flex; align-items: center;">
+    ❤️ My Watchlist <span id="watchlistCount"> 0</span>
+</a>
                 <button id="themeToggle" class="theme-btn">🌓</button>
             </div>
         </div>
@@ -52,10 +54,21 @@
         <div class="section-title" id="randomSectionTitle">
             🎲 Random Picks For You
         </div>
+
         <div class="movies-grid" id="moviesGrid">
              <div class="loading">Loading movies...</div>
         </div>
     </div>
+     
+    <section id="watchlistPage" class="hidden-section" style="display: none;">
+    <div class="section-header">
+        <h2 id="watchlistTitle">❤️ My Private Collection</h2>
+        <button onclick="window.movieApp.clearAllFilter()" class="back-btn">⬅ Back to Home</button>
+    </div>
+    <div id="watchlistGrid" class="movies-grid">
+        </div>
+</section>
+
     <div id="trailerModal" class="modal">
     <div class="modal-content">
         <span class="close-modal">&times;</span>
