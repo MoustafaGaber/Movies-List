@@ -204,19 +204,46 @@ class MovieExpLoader {
         } catch (e) { console.error(e); }
     }
 
+    // toggleWatchlist(movieObj, btn) {
+    //     const idx = this.watchlist.findIndex(m => m.id === movieObj.id);
+    //     if (idx === -1) {
+    //         this.watchlist.push(movieObj);
+    //         btn.innerHTML = "❤️"; btn.classList.add("active");
+    //     } else {
+    //         this.watchlist.splice(idx, 1);
+    //         btn.innerHTML = "🤍"; btn.classList.remove("active");
+    //         if (document.getElementById("randomSectionTitle").textContent.includes("Watchlist")) this.showWatchlist();
+    //     }
+    //     localStorage.setItem("myWatchlist", JSON.stringify(this.watchlist));
+    //     this.updateWatchlistCount();
+    // }
     toggleWatchlist(movieObj, btn) {
-        const idx = this.watchlist.findIndex(m => m.id === movieObj.id);
-        if (idx === -1) {
-            this.watchlist.push(movieObj);
-            btn.innerHTML = "❤️"; btn.classList.add("active");
-        } else {
-            this.watchlist.splice(idx, 1);
-            btn.innerHTML = "🤍"; btn.classList.remove("active");
-            if (document.getElementById("randomSectionTitle").textContent.includes("Watchlist")) this.showWatchlist();
+    const idx = this.watchlist.findIndex(m => m.id === movieObj.id);
+    
+    if (idx === -1) {
+        // حالة الإضافة
+        this.watchlist.push(movieObj);
+        btn.innerHTML = "❤️"; 
+        btn.classList.add("active");
+        this.showToast(`Added "${movieObj.title}" to watchlist`, "success");
+    } else {
+        // حالة الحذف
+        this.watchlist.splice(idx, 1);
+        btn.innerHTML = "🤍"; 
+        btn.classList.remove("active");
+        this.showToast(`Removed "${movieObj.title}"`, "info");
+        
+        // إذا كان المستخدم حالياً يشاهد صفحة المفضلات، نقوم بتحديث الشاشة فوراً
+        const sectionTitle = document.getElementById("randomSectionTitle")?.textContent;
+        if (sectionTitle && sectionTitle.includes("Watchlist")) {
+            this.showWatchlist();
         }
-        localStorage.setItem("myWatchlist", JSON.stringify(this.watchlist));
-        this.updateWatchlistCount();
     }
+    
+    // حفظ التعديلات وتحديث العداد في الهيدر
+    localStorage.setItem("myWatchlist", JSON.stringify(this.watchlist));
+    this.updateWatchlistCount();
+}
 
     updateWatchlistCount() {
         const el = document.getElementById("watchlistCount");
@@ -224,9 +251,18 @@ class MovieExpLoader {
     }
 
     showWatchlist() {
-        document.getElementById("trendingSection").style.display = "none";
-        document.getElementById("randomSectionTitle").textContent = "❤️ My Watchlist";
-        this.displayMovies(this.watchlist, "moviesGrid");
+        const trendingSection = document.getElementById("trendingSection");
+    const sectionTitle = document.getElementById("randomSectionTitle");
+    const clearBtn = document.getElementById("clearBtn");
+
+    // إخفاء التريندينج
+    if (trendingSection) trendingSection.style.display = "none";
+    
+    // تغيير العنوان وإظهار زر العودة (Clear All سيعمل كزر عودة)
+    if (sectionTitle) sectionTitle.textContent = "❤️ My Watchlist";
+    if (clearBtn) clearBtn.classList.add("show");
+
+    this.displayMovies(this.watchlist, "moviesGrid");
     }
 
     toggleTheme() {
@@ -260,7 +296,7 @@ class MovieExpLoader {
                 <div class="movie-info">
                     <div class="movie-title">${movie.title}</div>
                     <div class="movie-details"><span>⭐ ${movie.vote_average.toFixed(1)}</span></div>
-                    <button class="play-trailer-btn-small" onclick="window.movieApp.watchTrailer(${movie.id})">▶ Trailer</button>
+                    <button class="play-trailer-btn" onclick="window.movieApp.watchTrailer(${movie.id})">▶ Watch Trailer</button>
                 </div>
             </div>`;
     }
@@ -282,20 +318,54 @@ class MovieExpLoader {
     }
 
     clearAllFilter() {
-        document.getElementById("searchInput").value = "";
-        document.getElementById("genreFilter").value = "";
-        document.getElementById("yearFilter").value = "";
-        this.currentFilter = { genre: "", year: "", sort: "" };
-        document.getElementById("clearBtn").classList.remove("show");
-        document.getElementById("trendingSection").style.display = "block";
-        document.getElementById("randomSectionTitle").textContent = "🎲 Random Picks For You";
-        this.loadRandomMovies();
+        const trendingSection = document.getElementById("trendingSection");
+    const sectionTitle = document.getElementById("randomSectionTitle");
+    const clearBtn = document.getElementById("clearBtn");
+
+    // إعادة ضبط الحقول والفلاتر والصفحات
+    document.getElementById("searchInput").value = "";
+    document.getElementById("genreFilter").value = "";
+    document.getElementById("yearFilter").value = "";
+    this.currentFilter = { genre: "", year: "", sort: "" };
+    this.currentPage = 1;
+
+    // إخفاء زر Clear All وإعادة إظهار الهوم
+    clearBtn.classList.remove("show");
+    if (trendingSection) trendingSection.style.display = "block";
+    if (sectionTitle) sectionTitle.textContent = "🎲 Random Picks For You";
+
+    this.loadRandomMovies(); // جلب أفلام الهوم العشوائية
     }
 
     scrollcarousel(dir) {
         const c = document.getElementById("trendingCarousel");
         c.scrollBy({ left: dir === "prev" ? -320 : 320, behavior: "smooth" });
     }
+
+    showToast(message, type = "success") {
+    // إنشاء حاوية التنبيهات إذا لم تكن موجودة
+    let container = document.querySelector(".toast-container");
+    if (!container) {
+        container = document.createElement("div");
+        container.className = "toast-container";
+        document.body.appendChild(container);
+    }
+
+    // إنشاء رسالة التنبيه
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    toast.innerHTML = `
+        <span>${type === "success" ? "✅" : "❌"}</span>
+        <span>${message}</span>
+    `;
+
+    container.appendChild(toast);
+
+    // حذف الرسالة من الـ DOM بعد انتهاء الأنميشن (3 ثوانٍ)
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
+}
 }
 
 window.movieApp = new MovieExpLoader();
