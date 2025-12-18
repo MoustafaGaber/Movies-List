@@ -45,10 +45,40 @@ class MovieExpLoader {
         document.getElementById("trendingPrev")?.addEventListener("click", () => this.scrollcarousel("prev"));
         document.getElementById("trendingNext")?.addEventListener("click", () => this.scrollcarousel("next"));
 
+
         if (watchListNavBtn) {
             watchListNavBtn.addEventListener("click", () => this.showWatchlist());
         }
+            document.querySelector(".close-modal").onclick = () => {
+            document.getElementById("trailerModal").style.display = "none";
+            document.getElementById("videoContainer").innerHTML = ""; // إيقاف الفيديو عند الغلق
+        };
+        
     }
+async watchTrailer(movieId) {
+    try {
+        const response = await fetch(`${this.BASE_URL}/movie/${movieId}/videos?api_key=${this.API_KEY}`);
+        const data = await response.json();
+        
+        // البحث عن فيديو من نوع Trailer على Youtube
+        const trailer = data.results.find(v => v.type === 'Trailer' && v.site === 'YouTube');
+        
+        if (trailer) {
+            const modal = document.getElementById("trailerModal");
+            const container = document.getElementById("videoContainer");
+            
+            container.innerHTML = `
+                <iframe src="https://www.youtube.com/embed/${trailer.key}?autoplay=1" 
+                        allowfullscreen allow="autoplay"></iframe>`;
+            modal.style.display = "block";
+        } else {
+            alert("Sorry, no trailer available for this movie.");
+        }
+    } catch (error) {
+        console.error("Error fetching trailer:", error);
+    }
+}
+    
 
     // --- دالة البحث ---
     async handleSearch(query) {
@@ -179,9 +209,19 @@ class MovieExpLoader {
                 <img src="${poster}" class="movie-poster" />
                 <div class="trending-rank">#${rank}</div>
                 <div class="trending-overlay">
+
                     <div class="trending-title">${movie.title}</div>
                     <div class="trending-details">⭐ ${movie.vote_average.toFixed(1)}</div>
+                    <div class="trending-actions">
+                    <button class="play-trailer-btn" onclick="window.movieApp.watchTrailer(${movie.id})">
+                        <span>▶</span> Watch Trailer
+                    </button>
                 </div>
+                </div>
+                
+
+                
+
             </div>`;
     }
 
@@ -220,6 +260,10 @@ class MovieExpLoader {
                         <span>${new Date(movie.release_date).getFullYear() || 'N/A'}</span>
                         <span class="movie-rating">⭐ ${movie.vote_average.toFixed(1)}</span>
                     </div>
+                    <div>// أضف هذا الزر داخل الـ HTML المولد في دوال الكروت
+                <button class="trailer-btn" onclick="window.movieApp.watchTrailer(${movie.id})">
+                    ▶ Watch Trailer
+                </button></div>
                 </div>
             </div>`;
     }
