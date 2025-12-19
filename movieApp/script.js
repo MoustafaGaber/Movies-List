@@ -40,7 +40,7 @@ class MovieExpLoader {
         document.getElementById("sortFilter")?.addEventListener("change", () => this.handelFilterChange());
         document.getElementById("clearBtn")?.addEventListener("click", () => this.clearAllFilter());
         document.getElementById("themeToggle")?.addEventListener("click", () => this.toggleTheme());
-        document.getElementById("watchListNavBtn")?.addEventListener("click", () => this.showWatchlist());
+        //document.getElementById("watchListNavBtn")?.addEventListener("click", () => this.showWatchlist());
         
         document.getElementById("trendingPrev")?.addEventListener("click", () => this.scrollcarousel("prev"));
         document.getElementById("trendingNext")?.addEventListener("click", () => this.scrollcarousel("next"));
@@ -234,10 +234,10 @@ class MovieExpLoader {
         this.showToast(`Removed "${movieObj.title}"`, "info");
         
         // إذا كان المستخدم حالياً يشاهد صفحة المفضلات، نقوم بتحديث الشاشة فوراً
-        const sectionTitle = document.getElementById("randomSectionTitle")?.textContent;
-        if (sectionTitle && sectionTitle.includes("Watchlist")) {
-            this.showWatchlist();
-        }
+        // const sectionTitle = document.getElementById("randomSectionTitle")?.textContent;
+        // if (sectionTitle && sectionTitle.includes("Watchlist")) {
+        //     this.showWatchlist();
+        // }
     }
     
     // حفظ التعديلات وتحديث العداد في الهيدر
@@ -250,20 +250,20 @@ class MovieExpLoader {
         if (el) el.textContent = ` ${this.watchlist.length}`;
     }
 
-    showWatchlist() {
-        const trendingSection = document.getElementById("trendingSection");
-    const sectionTitle = document.getElementById("randomSectionTitle");
-    const clearBtn = document.getElementById("clearBtn");
+    // showWatchlist() {
+    //     const trendingSection = document.getElementById("trendingSection");
+    // const sectionTitle = document.getElementById("randomSectionTitle");
+    // const clearBtn = document.getElementById("clearBtn");
 
-    // إخفاء التريندينج
-    if (trendingSection) trendingSection.style.display = "none";
+    // // إخفاء التريندينج
+    // if (trendingSection) trendingSection.style.display = "none";
     
-    // تغيير العنوان وإظهار زر العودة (Clear All سيعمل كزر عودة)
-    if (sectionTitle) sectionTitle.textContent = "❤️ My Watchlist";
-    if (clearBtn) clearBtn.classList.add("show");
+    // // تغيير العنوان وإظهار زر العودة (Clear All سيعمل كزر عودة)
+    // if (sectionTitle) sectionTitle.textContent = "❤️ My Watchlist";
+    // if (clearBtn) clearBtn.classList.add("show");
 
-    this.displayMovies(this.watchlist, "moviesGrid");
-    }
+    // this.displayMovies(this.watchlist, "moviesGrid");
+    // }
 
     toggleTheme() {
         this.currentTheme = this.currentTheme === "dark" ? "light" : "dark";
