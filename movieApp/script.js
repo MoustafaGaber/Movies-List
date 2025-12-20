@@ -79,20 +79,32 @@ class MovieExpLoader {
 
     async loadRandomMovies() {
         this.currentPage = 1;
+        this.loader().on();
         try {
             const res = await fetch(`${this.BASE_URL}/discover/movie?api_key=${this.API_KEY}&page=1`);
             const data = await res.json();
             this.displayMovies(data.results, "moviesGrid");
-        } catch (e) { console.error(e); }
+        } catch (e){ 
+            console.error(e);
+        }finally{
+            this.loader().off();
+        }
     }
 
     async loadTrendingMovies() {
+        this.loader().on();
         try {
+            
             const res = await fetch(`${this.BASE_URL}/trending/movie/week?api_key=${this.API_KEY}`);
             const data = await res.json();
             const carousel = document.getElementById("trendingCarousel");
             if (carousel) carousel.innerHTML = data.results.slice(0, 10).map((m, i) => this.createTrendingCard(m, i + 1)).join("");
-        } catch (e) { console.error(e); }
+        } catch (e) {
+             console.error(e); 
+
+        }finally{
+            this.loader().off();
+        }
     }
 
     // --- نظام البحث والفلترة المطور ---
@@ -305,6 +317,7 @@ class MovieExpLoader {
         const isAdded = this.watchlist.some(m => m.id === movie.id);
         const movieData = JSON.stringify(movie).replace(/"/g, "&quot;");
         const poster = movie.poster_path ? this.IMAGE_BASE_URL + movie.poster_path : this.FALLBACK_IMAGE;
+    
         return `
             <div class="trending-card">
                 <button class="watchlist-btn ${isAdded ? 'active' : ''}" onclick="window.movieApp.toggleWatchlist(${movieData}, this)">${isAdded ? '❤️' : '🤍'}</button>
@@ -366,6 +379,25 @@ class MovieExpLoader {
         toast.remove();
     }, 3000);
 }
+ // داخل كلاس MovieExpLoader
+loader() {
+    const spinner = document.getElementById("loader");
+    const loadingText = document.querySelectorAll(".loading"); // لإخفاء نصوص التحميل القديمة
+
+    return {
+        on: () => {
+            spinner?.classList.add("active");
+            loadingText.forEach(el => el.style.display = "block");
+        },
+        off: () => {
+            spinner?.classList.remove("active");
+            loadingText.forEach(el => el.style.display = "none");
+        }
+    };
+}
+
+
+
 }
 
 window.movieApp = new MovieExpLoader();

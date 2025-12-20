@@ -31,8 +31,8 @@
             </div>
             <div class="header-actions">
                 <button class="clear-btn" id="clearBtn">Clear All</button>
-               <a href="watchlist.html" class="watchlist-nav-btn" id="watchListNavBtn" >
-    ❤️ My Watchlist <span id="watchlistCount"> 0</span>
+                  <a href="watchlist.html" class="watchlist-nav-btn" id="watchListNavBtn" >
+                  ❤️ My Watchlist <span id="watchlistCount"> 0</span>
 </a>
                 <button id="themeToggle" class="theme-btn">🌓</button>
             </div>
@@ -46,7 +46,13 @@
                 <button class="carousel-btn prev-btn" id="trendingPrev">＞</button>
                 <div class="carousel" id="trendingCarousel">
                     <!-- Trending movies will be dynamically inserted here -->
-                     <div class="loading">Loading trending movies...</div>
+                      <!-- spinner -->
+                        <div class="spinner"> 
+                            <span id="loader" class="loader" ></span>
+                            
+                        </div>
+                     <!-- <div class="loading">Loading trending movies...</div> -->
+
                 </div>
                 <button class="carousel-btn next-btn" id="trendingNext">＜</button>
             </div>
@@ -56,6 +62,10 @@
         </div>
 
         <div class="movies-grid" id="moviesGrid">
+             <div class="spinner"> 
+                            <span id="loader" class="loader" ></span>
+                            
+                        </div>
              <div class="loading">Loading movies...</div>
         </div>
     </div>
