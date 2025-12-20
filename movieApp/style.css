@@ -237,7 +237,7 @@ select {
   }
   .trending-genres {
     font-size: 0.8em;
-    color: var(--text-color)
+    color: var(--text-color);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -250,6 +250,7 @@ select {
     font-weight: bold;
   }
 }
+
 .movies-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
