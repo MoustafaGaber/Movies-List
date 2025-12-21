@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies Flix List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <div class="logo"  style="cursor: pointer;"  >🎬 Movies List</div>
+        <div class="search-container">
+            <div class="search-box">
+                <input class="search-input" type="text" id="searchInput" placeholder="Search for movies...">
+            </div>
+            <div class="filters">
+                <select id="genreFilter">
+                    <option value="">All Genres</option>
+                    
+                </select>
+                <select id="yearFilter">
+                    <option value="">All Years</option>
+                </select>
+                <select id="sortFilter" >
+                    <option value="">Sort By</option>
+                    <option value="popularity.desc">Most Popular</option>
+                    <option value="vote_average.desc">Highest Rated</option>
+                    <option value="release_date.desc">Latest Release</option>
+                    <option value="title.asc">A-Z</option>
+                </select>   
+            </div>
+            <div class="header-actions">
+                <button class="clear-btn" id="clearBtn">Clear All</button>
+                  <a href="watchlist.html" class="watchlist-nav-btn" id="watchListNavBtn" >
+                  ❤️ My Watchlist <span id="watchlistCount"> 0</span>
+</a>
+                <button id="themeToggle" class="theme-btn">🌓</button>
+            </div>
+        </div>
+        
+    </div>
+    <div class="main-content">
+        <div id="trendingSection">
+            <div class="section-title">🔥 Trending Now</div>
+            <div class="carousel-container">
+                <button class="carousel-btn prev-btn" id="trendingPrev">＞</button>
+                <div class="carousel" id="trendingCarousel">
+                    <!-- Trending movies will be dynamically inserted here -->
+                      <!-- spinner -->
+                        <div class="spinner"> 
+                            <span id="loader" class="loader" ></span>
+                            
+                        </div>
+                     <!-- <div class="loading">Loading trending movies...</div> -->
+
+                </div>
+                <button class="carousel-btn next-btn" id="trendingNext">＜</button>
+            </div>
+        </div>
+        <div class="section-title" id="randomSectionTitle">
+            🎲 Random Picks For You
+        </div>
+
+        <div class="movies-grid" id="moviesGrid">
+             <div class="spinner"> 
+                            <span id="loader" class="loader" ></span>
+                            
+                        </div>
+             <div class="loading">Loading movies...</div>
+        </div>
+    </div>
+     
+    <section id="watchlistPage" class="hidden-section" style="display: none;">
+    <div class="section-header">
+        <h2 id="watchlistTitle">❤️ My Private Collection</h2>
+        <button onclick="window.movieApp.clearAllFilter()" class="back-btn">⬅ Back to Home</button>
+    </div>
+    <div id="watchlistGrid" class="movies-grid">
+        </div>
+</section>
+
+    <div id="trailerModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div id="videoContainer"></div>
+    </div>
+</div>
+    
+   <script src="script.js" type="module"></script> 
+</body>
+</html>

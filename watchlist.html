@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Watchlist - Movie List</title>
+    <link rel="stylesheet" href="style.css"> </head>
+<body>
+    <header class="header">
+    <div class="logo">
+        <a href="index.html" style="text-decoration: none; color: inherit;">🎬 Movies List</a>
+    </div>
+    <div class="header-actions">
+        <a href="index.html" class="clear-btn" style="text-decoration: none;">Back to Home</a>
+        
+        <button id="themeToggle" class="theme-btn">☀️</button>
+    </div>
+</header>
+
+    <main class="main-content">
+        <div class="section-header">
+            <h2>❤️ My Private Collection</h2>
+        </div>
+        <div id="watchlistGrid" class="movies-grid"></div>
+    </main>
+
+    <div id="trailerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="videoContainer"></div>
+        </div>
+    </div>
+
+    <script src="watchlist.js"></script>
+</body>
+</html>
