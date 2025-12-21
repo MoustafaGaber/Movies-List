@@ -61,3 +61,11 @@ git push -u origin main
 git remote add origin https://github.com/MoustafaGaber/Movies-List.git
 git branch -M main
 git push -u origin main
+
+2. حل الـ Rebase (للحفاظ على تاريخ نظيف)
+بدلاً من الدمج التقليدي، يمكنك وضع تعديلاتك "فوق" التعديلات الجديدة: git pull --rebase origin main ثم ارفع ملفاتك بـ git push.
+
+3. حل الـ Force Push (استخدمه بحذر شديد!)
+إذا كنت متأكداً 100% أنك تريد مسح ما هو موجود على السيرفر واستبداله بملفاتك الحالية (مثلاً لو كنت تعمل وحدك تماماً والتعديلات القديمة لا تهمك): git push -f origin main
+
+تنبيه: هذا الأمر قد يمسح شغل زملائك إذا كنت تعمل ضمن فريق، لذا لا تستخدمه إلا في الضرورة القصوى.
