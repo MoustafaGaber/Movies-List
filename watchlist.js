@@ -1,3 +1,31 @@
+
+
+
+
+///////////navbar/////////////
+
+  function adjustBodyPadding() {
+    const navbar = document.querySelector(".navbar");
+    document.body.style.paddingTop = navbar.offsetHeight + "px";
+  }
+
+  window.addEventListener("load", adjustBodyPadding);
+  window.addEventListener("resize", adjustBodyPadding);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // دالة لتفعيل الثيم فور تحميل الصفحة
 function initTheme() {
     const themeBtn = document.getElementById("themeToggle");
@@ -18,12 +46,14 @@ function initTheme() {
         localStorage.setItem("theme", newTheme);
         themeBtn.innerHTML = newTheme === "dark" ? "☀️" : "🌙";
     });
+
 }
 
 // تأكد من استدعاء الدالة عند تشغيل الصفحة
 document.addEventListener("DOMContentLoaded", () => {
     initTheme();
-    loadWatchlist(); // استدعاء دالة عرض الأفلام الموجودة عندك مسبقاً
+    loadWatchlist();
+    updateWatchlistCount(); // استدعاء دالة عرض الأفلام الموجودة عندك مسبقاً
 });
 
 
@@ -47,7 +77,7 @@ function loadWatchlist() {
             <img src="${IMAGE_BASE_URL + movie.poster_path}" class="movie-poster" />
             <div class="movie-info">
                 <div class="movie-title">${movie.title}</div>
-                <button class="play-trailer-btn" onclick="watchTrailer(${movie.id})">▶ Trailer</button>
+                <button class="play-trailer-btn" onclick="watchTrailer(${movie.id})">▶ Watch Trailer</button>
             </div>
         </div>
     `).join("");
@@ -89,7 +119,6 @@ document.querySelector(".close-modal")?.addEventListener("click", () => {
 
 
 
-// تشغيل الدالة عند فتح الصفحة
 document.addEventListener("DOMContentLoaded", loadWatchlist);
 
 function showToast(message, type = "success") {
