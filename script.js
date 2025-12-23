@@ -45,6 +45,7 @@ class MovieExpLoader {
     }
 
     async init() {
+         this.updateWatchlistCount();
         this.applyTheme();
         this.setupEventListeners();
         await this.loadGenres();
@@ -52,7 +53,7 @@ class MovieExpLoader {
         await this.loadTrendingMovies();
         await this.loadRandomMovies();
         this.setupInfiniteScroll();
-        this.updateWatchlistCount();
+       
     }
 
     setupEventListeners() {
@@ -327,11 +328,21 @@ class MovieExpLoader {
     }
 
     createMovieCard(movie) {
+        // 1. استخراج السنة من تاريخ الإصدار (مثلاً من "2025-12-20" نأخذ "2025")
+    const releaseYear = movie.release_date ? movie.release_date.split('-')[0] : '';
+    
+    // 2. الحصول على السنة الحالية ديناميكياً
+    const currentYear = new Date().getFullYear().toString();
+    
+    // 3. التحقق: إذا كانت السنة متطابقة، ننشئ شارة NEW
+    const newBadge = (releaseYear === currentYear) ? `<span class="new-badge">NEW</span>` : "";
         const isAdded = this.watchlist.some(m => m.id === movie.id);
         const movieData = JSON.stringify(movie).replace(/"/g, "&quot;");
         const poster = movie.poster_path ? this.IMAGE_BASE_URL + movie.poster_path : this.FALLBACK_IMAGE;
         return `
             <div class="movie-card">
+                ${newBadge}
+            <button class="watchlist-btn ...">...</button>
                 <button class="watchlist-btn ${isAdded ? 'active' : ''}" onclick="window.movieApp.toggleWatchlist(${movieData}, this)">${isAdded ? '❤️' : '🤍'}</button>
                 <img src="${poster}" class="movie-poster" />
                 <div class="movie-info">
