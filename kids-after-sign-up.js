@@ -200,6 +200,25 @@ setupThemeToggle() {
         const loader = document.getElementById("loader");
         if (loader) loader.classList.toggle("active", show);
     }
+  setupModalClose() {
+    const modal = document.getElementById("trailerModal");
+    const closeBtn = document.querySelector(".close-modal");
+    const videoContainer = document.getElementById("videoContainer");
+
+    // إغلاق عند الضغط على زر X
+    closeBtn?.addEventListener("click", () => {
+        modal.style.display = "none";
+        videoContainer.innerHTML = ""; // مهم جداً لإيقاف صوت الفيديو
+    });
+
+    // إغلاق عند الضغط خارج نافذة الفيديو
+    window.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            modal.style.display = "none";
+            videoContainer.innerHTML = "";
+        }
+    });
+}
 }
 
 // تشغيل الكلاس وربطه بـ window ليعمل الـ onclick
