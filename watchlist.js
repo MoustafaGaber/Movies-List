@@ -86,7 +86,7 @@ function renderMovies(movies, query = "") {
 
         // 2. بناء الكارد
         return `
-            <div class="movie-card">
+            <div class="movie-card" onclick="location.href='details.html?id=${movie.id}'">
                 ${newBadge}
                 <button class="watchlist-btn active" onclick="removeFromWatchlist(${movie.id})">❤️</button>
                 <img src="${movie.poster_path ? IMAGE_BASE_URL + movie.poster_path : 'image.png'}" class="movie-poster" />

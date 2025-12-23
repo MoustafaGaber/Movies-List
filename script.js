@@ -340,7 +340,7 @@ class MovieExpLoader {
         const movieData = JSON.stringify(movie).replace(/"/g, "&quot;");
         const poster = movie.poster_path ? this.IMAGE_BASE_URL + movie.poster_path : this.FALLBACK_IMAGE;
         return `
-            <div class="movie-card">
+            <div class="movie-card" onclick="location.href='details.html?id=${movie.id}'">
                 ${newBadge}
             <button class="watchlist-btn ...">...</button>
                 <button class="watchlist-btn ${isAdded ? 'active' : ''}" onclick="window.movieApp.toggleWatchlist(${movieData}, this)">${isAdded ? '❤️' : '🤍'}</button>
