@@ -359,7 +359,7 @@ class MovieExpLoader {
         const poster = movie.poster_path ? this.IMAGE_BASE_URL + movie.poster_path : this.FALLBACK_IMAGE;
     
         return `
-            <div class="trending-card">
+            <div class="trending-card" onclick="location.href='details.html?id=${movie.id}'">
                 <button class="watchlist-btn ${isAdded ? 'active' : ''}" onclick="window.movieApp.toggleWatchlist(${movieData}, this)">${isAdded ? '❤️' : '🤍'}</button>
                 <img src="${poster}" class="movie-poster" />
                 <div class="trending-rank">#${rank}</div>
