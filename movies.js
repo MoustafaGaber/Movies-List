@@ -321,7 +321,7 @@ async loadInitialMovies() {
         return `
             <div class="movie-card" onclick="location.href='details.html?id=${movie.id}'">
                 ${isNew} <button class="watchlist-btn ...">...</button>
-                <button class="watchlist-btn ${isAdded ? 'active' : ''}" onclick="window.movieApp.toggleWatchlist(${movieData}, this)">${isAdded ? '❤️' : '🤍'}</button>
+                <button class="watchlist-btn ${isAdded ? 'active' : ''}" onclick="event.stopPropagation(); window.movieApp.toggleWatchlist(${movieData}, this)">${isAdded ? '❤️' : '🤍'}</button>
                 <img src="${poster}" class="movie-poster" />
                 <div class="movie-info">
                     <div class="movie-title">${movie.title}</div>
@@ -331,22 +331,22 @@ async loadInitialMovies() {
             </div>`;
     }
 
-    createTrendingCard(movie, rank) {
-        const isAdded = this.watchlist.some(m => m.id === movie.id);
-        const movieData = JSON.stringify(movie).replace(/"/g, "&quot;");
-        const poster = movie.poster_path ? this.IMAGE_BASE_URL + movie.poster_path : this.FALLBACK_IMAGE;
+    // createTrendingCard(movie, rank) {
+    //     const isAdded = this.watchlist.some(m => m.id === movie.id);
+    //     const movieData = JSON.stringify(movie).replace(/"/g, "&quot;");
+    //     const poster = movie.poster_path ? this.IMAGE_BASE_URL + movie.poster_path : this.FALLBACK_IMAGE;
     
-        return `
-            <div class="trending-card">
-                <button class="watchlist-btn ${isAdded ? 'active' : ''}" onclick="window.movieApp.toggleWatchlist(${movieData}, this)">${isAdded ? '❤️' : '🤍'}</button>
-                <img src="${poster}" class="movie-poster" />
-                <div class="trending-rank">#${rank}</div>
-                <div class="trending-overlay">
-                    <div class="trending-title">${movie.title}</div>
-                    <button class="play-trailer-btn" onclick="window.movieApp.watchTrailer(${movie.id})">▶ Watch Trailer</button>
-                </div>
-            </div>`;
-    }
+    //     return `
+    //         <div class="trending-card">
+    //             <button class="watchlist-btn ${isAdded ? 'active' : ''}" onclick="event.stopPropagation(); window.movieApp.toggleWatchlist(${movieData}, this)">${isAdded ? '❤️' : '🤍'}</button>
+    //             <img src="${poster}" class="movie-poster" />
+    //             <div class="trending-rank">#${rank}</div>
+    //             <div class="trending-overlay">
+    //                 <div class="trending-title">${movie.title}</div>
+    //                 <button class="play-trailer-btn" onclick="window.movieApp.watchTrailer(${movie.id})">▶ Watch Trailer</button>
+    //             </div>
+    //         </div>`;
+    // }
 
     clearAllFilter() {
         const trendingSection = document.getElementById("trendingSection");

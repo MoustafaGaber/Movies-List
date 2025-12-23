@@ -76,7 +76,7 @@ class KidsMovieExplorer {
              ${newBadge}
             <button class="watchlist-btn ...">...</button>
                 <button class="watchlist-btn ${isAdded ? 'active' : ''}" 
-                        onclick="kidsApp.toggleWatchlist(${movieData}, this)">
+                        onclick="event.stopPropagation(); kidsApp.toggleWatchlist(${movieData}, this)">
                         ${isAdded ? '❤️' : '🤍'}
                 </button>
                 <img src="${poster}" class="movie-poster" />
