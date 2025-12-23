@@ -72,7 +72,7 @@ class KidsMovieExplorer {
         const poster = movie.poster_path ? this.IMAGE_BASE_URL + movie.poster_path : 'https://via.placeholder.com/500x750?text=No+Image';
         
         return `
-            <div class="movie-card">
+            <div class="movie-card" onclick="location.href='details.html?id=${movie.id}'">
              ${newBadge}
             <button class="watchlist-btn ...">...</button>
                 <button class="watchlist-btn ${isAdded ? 'active' : ''}" 

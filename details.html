@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Details - Movie List</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* تنسيقات خاصة بصفحة التفاصيل لتكون أكثر جمالاً */
+        .hero-section {
+            position: relative;
+            height: 70vh;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            padding: 50px;
+            margin-top: 60px;
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, var(--bg-color) 10%, transparent);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            gap: 30px;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .detail-poster {
+            width: 300px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .cast-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .cast-card {
+            text-align: center;
+        }
+        .cast-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e50914;
+        }
+        .info-tag {
+            background: rgba(229, 9, 20, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            color: #e50914;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-background fixed-top">
+        <div class="search-container" style="width: 95%; margin: auto; display: flex; align-items: center; justify-content: space-between;">
+            <a href="index.html" class="logo">MOVIE LIST</a>
+            <div class="header-actions">
+                <button onclick="history.back()" class="watchlist-nav-btn">← Back</button>
+            </div>
+        </div>
+    </nav>
+
+    <div id="movieDetails">
+        </div>
+
+    <script src="details.js"></script>
+</body>
+</html>
