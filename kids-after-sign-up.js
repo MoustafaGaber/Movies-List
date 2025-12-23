@@ -37,6 +37,7 @@ class KidsMovieExplorer {
         await this.loadKidsMovies();
         this.setupInfiniteScroll();
         this.setupSearch();
+        this.setupModalClose();
     }
 
     // 1. جلب أفلام الأطفال من الـ API
