@@ -33,13 +33,13 @@ class MovieExpLoader {
 
     async init() {
         this.applyTheme();
+        this.updateWatchlistCount();
         this.setupEventListeners();
         await this.loadGenres();
         this.setupYearFilter();
         
         await this.loadRandomMovies();
         this.setupInfiniteScroll();
-        this.updateWatchlistCount();
     }
 
     setupEventListeners() {

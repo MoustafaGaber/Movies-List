@@ -45,6 +45,7 @@ class MovieExpLoader {
     }
 
     async init() {
+         this.updateWatchlistCount();
         this.applyTheme();
         this.setupEventListeners();
         await this.loadGenres();
@@ -52,7 +53,7 @@ class MovieExpLoader {
         await this.loadTrendingMovies();
         await this.loadRandomMovies();
         this.setupInfiniteScroll();
-        this.updateWatchlistCount();
+       
     }
 
     setupEventListeners() {
