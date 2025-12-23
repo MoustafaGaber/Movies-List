@@ -10,6 +10,16 @@
 
 
 
+document.addEventListener("DOMContentLoaded", () => {
+  const user = JSON.parse(localStorage.getItem("signupUser"));
+
+  if (user && user.username) {
+    document.getElementById("usernameDisplay").textContent = user.username;
+  }
+});
+
+
+
 ////////////////////////
 
 

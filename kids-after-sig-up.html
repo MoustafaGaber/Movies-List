@@ -3,24 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movies Flix List</title>
+    <title>Kids-Movies List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-
-
-
-
-
-
-
-    
-    <header class="header">
-        
-<nav class="navbar navbar-expand-lg bg-black fixed-top navbar-background">
+ <nav class="navbar navbar-expand-lg bg-black fixed-top navbar-background">
   <div class="container-fluid ">
     <a href="index.html" class="logo" onclick="window.movieApp.clearAllFilter()" style="cursor: pointer;">MOVIE LIST</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,19 +19,19 @@
     <div class="collapse navbar-collapse div-navbar-ul" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item ">
-          <a class="nav-link color" aria-current="page" href="index.html">Home</a>
+          <a class="nav-link color" aria-current="page" href="home.html">Home</a>
         </li>
         
         <li class="nav-item">
-          <a class="nav-link color" href="movies.html">Latest Releases</a>
+          <a class="nav-link color" href="latest-after-sign-up.html">Latest Releases</a>
         </li>
         
         
         <li class="nav-item flex">
-          <a class="nav-link active text-white" id="watchListNavBtn" href="watchlist.html">My Watch List</a> <span id="watchlistCount"> 0</span>
+          <a class="nav-link color" id="watchListNavBtn" href="watch-list-after-sign-up.html">My Watch List</a> <span id="watchlistCount"> 0</span>
         </li>
         <li class="nav-item">
-          <a class="nav-link color" href="kids.html">Kids</a>
+          <a class="nav-link active text-white" href="#">Kids</a>
         </li>
        
       </ul>
@@ -52,12 +42,15 @@
                 <input class="search-input" type="text" id="searchInput" placeholder="Search for movies...">
             </div>
             </li>
-            
-        <li class="nav-item signUp-icons">
-        <a href="sign-up.html" class="sign-up">
-          Sign Up
-        </a>
+
+
+
+       <li class="nav-item signUp-icons">
         <button id="themeToggle" class="theme-btn">🌓</button>
+        </li>
+
+        <li class="nav-item">
+            <h2 class="welcome">Welcome, <span id="usernameDisplay"></span> 👋</h2>
         </li>
 
 
@@ -67,22 +60,21 @@
   </div>
 </nav>
 
-    <div class="header-actions">
-        <a href="index.html" class="clear-btn" style="text-decoration: none;">Back to Home</a>
-        
-    </div>
-</header>
-
-
-
-
-
 
     <main class="main-content">
-        <div class="section-header">
-            <h2 style="padding-bottom: 10px;">My Private Collection</h2>
+        <div style="height: 100px;"></div> 
+
+        <header style="margin-bottom: 30px;">
+            <h1 class="section-title">Kids & Family Animation</h1>
+            <p style="color: var(--text-color); opacity: 0.8;">Explore the best safe and fun movies for your children.</p>
+        </header>
+
+        <div class="movies-grid" id="moviesGrid">
+            </div>
+
+        <div id="loader" class="spinner" style="display: none; justify-content: center; padding: 50px;">
+            <div class="loader"></div>
         </div>
-        <div id="watchlistGrid" class="movies-grid"></div>
     </main>
 
     <div id="trailerModal" class="modal">
@@ -92,6 +84,6 @@
         </div>
     </div>
 
-    <script src="watchlist.js"></script>
+    <script src="kids-after-sign-up.js"></script>
 </body>
 </html>

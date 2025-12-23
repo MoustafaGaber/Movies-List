@@ -1,3 +1,24 @@
+
+
+
+
+
+
+
+//////sign up
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const user = JSON.parse(localStorage.getItem("signupUser"));
+
+  if (user && user.username) {
+    document.getElementById("usernameDisplay").textContent = user.username;
+  }
+});
+
+
+
 /**
  * Watchlist Page Logic
  * ميزة البحث الفوري والتحكم في القائمة الخاصة

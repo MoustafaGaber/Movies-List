@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movies List</title>
+    <title>Latest Release-Movies List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style.css">
@@ -18,19 +18,19 @@
     <div class="collapse navbar-collapse div-navbar-ul" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item ">
-          <a class="nav-link active text-white" aria-current="page" href="#">Home</a>
+          <a class="nav-link color" aria-current="page" href="home.html">Home</a>
         </li>
         
         <li class="nav-item">
-          <a class="nav-link color" href="movies.html">Latest Releases</a>
+          <a class="nav-link active text-white" href="#">Latest Releases</a>
         </li>
         
         
         <li class="nav-item flex">
-          <a class="nav-link color" id="watchListNavBtn" href="watchlist.html">My Watch List</a> <span id="watchlistCount"> 0</span>
+          <a class="nav-link color" id="watchListNavBtn" href="watch-list-after-sign-up.html">My Watch List</a> <span id="watchlistCount"> 0</span>
         </li>
         <li class="nav-item">
-          <a class="nav-link color" href="kids.html">Kids</a>
+          <a class="nav-link color" href="kids-after-sig-up.html">Kids</a>
         </li>
        
       </ul>
@@ -43,15 +43,15 @@
             </li>
 
 
+
         <li class="nav-item signUp-icons">
-        <a href="sign-up.html" class="sign-up">
-          Sign Up
-        </a>
         <button id="themeToggle" class="theme-btn">🌓</button>
         </li>
 
+        <li class="nav-item">
+            <h2 class="welcome">Welcome, <span id="usernameDisplay"></span> 👋</h2>
+        </li>
 
-        
 
 
       </ul>
@@ -88,25 +88,9 @@
     </div>
     </div>
     <div class="main-content">
-        <div id="trendingSection">
-            <div class="section-title">Trending Now</div>
-            <div class="carousel-container">
-                <button class="carousel-btn prev-btn" id="trendingPrev"> < </button>
-                <div class="carousel" id="trendingCarousel">
-                    <!-- Trending movies will be dynamically inserted here -->
-                      <!-- spinner -->
-                        <div class="spinner"> 
-                            <span id="loader" class="loader" ></span>
-                            
-                        </div>
-                     <!-- <div class="loading">Loading trending movies...</div> -->
-
-                </div>
-                <button class="carousel-btn next-btn" id="trendingNext"> ＞ </button>
-            </div>
-        </div>
+        
         <div class="section-title" id="randomSectionTitle">
-            Random Picks For You
+            Latest Release
         </div>
 
         <div class="movies-grid" id="moviesGrid">
@@ -134,7 +118,7 @@
     </div>
 </div>
     
-   <script src="script.js" type="module"></script> 
+   <script src="latest-after-sign-up.js" type="module"></script> 
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>

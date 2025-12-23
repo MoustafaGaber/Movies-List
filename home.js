@@ -10,7 +10,26 @@
 
 
 
-////////////////////////
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const user = JSON.parse(localStorage.getItem("signupUser"));
+
+  if (user && user.username) {
+    document.getElementById("usernameDisplay").textContent = user.username;
+  }
+});
+
+
+
+
+
+
+
+
+
 
 
 
@@ -32,14 +51,15 @@ class MovieExpLoader {
     }
 
     async init() {
+         this.updateWatchlistCount();
         this.applyTheme();
-        this.updateWatchlistCount();
         this.setupEventListeners();
         await this.loadGenres();
         this.setupYearFilter();
-        
-        await this.loadInitialMovies();
+        await this.loadTrendingMovies();
+        await this.loadRandomMovies();
         this.setupInfiniteScroll();
+       
     }
 
     setupEventListeners() {
@@ -93,40 +113,40 @@ class MovieExpLoader {
         }
     }
 
-    // داخل الكلاس المسؤول عن صفحة Movies
-async loadInitialMovies() {
-    this.loader().on();
-    try {
-        // الحصول على السنة الحالية ديناميكياً
-        const currentYear = new Date().getFullYear(); 
-        
-        // الرابط يركز على أفلام السنة الحالية + ترتيب حسب تاريخ الإصدار التنازلي
-        const url = `${this.BASE_URL}/discover/movie?api_key=${this.API_KEY}` +
-                    `&primary_release_year=${currentYear}` +
-                    `&sort_by=primary_release_date.desc` + 
-                    `&vote_count.gte=50` + // لضمان ظهور أفلام حقيقية ولها تقييمات
-                    `&page=${this.currentPage}`;
-
-        const res = await fetch(url);
-        const data = await res.json();
-        
-        // تغيير عنوان القسم ليعبر عن المحتوى
-        const titleEl = document.getElementById("sectionTitle");
-        if(titleEl) titleEl.textContent = `🆕 New Releases ${currentYear}`;
-
-        this.displayMovies(data.results, "moviesGrid");
-    } catch (e) {
-        console.error("Error loading new releases:", e);
-    } finally {
-        this.loader().off();
+    async loadRandomMovies() {
+        this.currentPage = 1;
+        this.loader().on();
+        try {
+            const res = await fetch(`${this.BASE_URL}/discover/movie?api_key=${this.API_KEY}&page=1`);
+            const data = await res.json();
+            this.displayMovies(data.results, "moviesGrid");
+        } catch (e){ 
+            console.error(e);
+        }finally{
+            this.loader().off();
+        }
     }
-}
-    
+
+    async loadTrendingMovies() {
+        this.loader().on();
+        try {
+            
+            const res = await fetch(`${this.BASE_URL}/trending/movie/week?api_key=${this.API_KEY}`);
+            const data = await res.json();
+            const carousel = document.getElementById("trendingCarousel");
+            if (carousel) carousel.innerHTML = data.results.slice(0, 10).map((m, i) => this.createTrendingCard(m, i + 1)).join("");
+        } catch (e) {
+             console.error(e); 
+
+        }finally{
+            this.loader().off();
+        }
+    }
 
     // --- نظام البحث والفلترة المطور ---
     async handleSearch(query) {
         this.currentPage = 1;
-
+        const trendingSection = document.getElementById("trendingSection");
         const sectionTitle = document.getElementById("randomSectionTitle");
 
         if (!query) {
@@ -135,6 +155,7 @@ async loadInitialMovies() {
         }
 
         document.getElementById("clearBtn")?.classList.add("show");
+        trendingSection.style.display = "none";
         sectionTitle.textContent = `🔍 Search Results: "${query}"`;
 
         try {
@@ -159,7 +180,7 @@ async loadInitialMovies() {
         if (query) {
             this.handleSearch(query);
         } else {
-            // document.getElementById("trendingSection").style.display = (this.currentFilter.genre || this.currentFilter.year) ? "none" : "block";
+            document.getElementById("trendingSection").style.display = (this.currentFilter.genre || this.currentFilter.year) ? "none" : "block";
             this.loadFilterMovies();
         }
         document.getElementById("clearBtn")?.classList.add("show");
@@ -210,20 +231,10 @@ async loadInitialMovies() {
 
             const res = await fetch(url);
             const data = await res.json();
-if (data.results.length > 0) {
-    const filteredMovies = data.results.filter(movie => {
-        if (!movie.release_date) return false;
-        return Number(movie.release_date.slice(0, 4)) >= 2025;
-    });
-
-    const newHTML = filteredMovies
-        .map(m => this.createMovieCard(m))
-        .join("");
-
-    document
-        .getElementById("moviesGrid")
-        .insertAdjacentHTML("beforeend", newHTML);
-}
+            if (data.results.length > 0) {
+                const newHTML = data.results.map(m => this.createMovieCard(m)).join("");
+                document.getElementById("moviesGrid").insertAdjacentHTML('beforeend', newHTML);
+            }
         } catch (e) { console.error(e); }
         this.isLoadingMore = false;
     }
@@ -315,47 +326,29 @@ if (data.results.length > 0) {
     }
 
     // --- دوال المساعدة للرسم (Rendering) ---
-displayMovies(movies, containerId) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-
-    // 🔹 Filter movies released in 2025 or later
-    const filteredMovies = movies.filter(movie => {
-        if (!movie.release_date) return false;
-        const year = new Date(movie.release_date).getFullYear();
-        return year >= 2025;
-    });
-
-    if (filteredMovies.length === 0) {
-        container.innerHTML = "<h2>No Movies Found</h2>";
-        return;
+    displayMovies(movies, containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        if (movies.length === 0) { container.innerHTML = "<h2>No Movies Found</h2>"; return; }
+        container.innerHTML = movies.map(m => this.createMovieCard(m)).join("");
     }
 
-    container.innerHTML = filteredMovies
-        .map(m => this.createMovieCard(m))
-        .join("");
-}
-
-createMovieCard(movie) {
-        const releaseYear = movie.release_date
-        ? Number(movie.release_date.slice(0, 4))
-        : 0;
-
-    if (releaseYear < 2025) return "";
-
-    const isNew = releaseYear === 2025
-        ? '<span class="new-badge">NEW</span>'
-        : '';
-
-    const isAdded = this.watchlist.some(m => m.id === movie.id);
-    const movieData = JSON.stringify(movie).replace(/"/g, "&quot;");
-    const poster = movie.poster_path
-        ? this.IMAGE_BASE_URL + movie.poster_path
-        : this.FALLBACK_IMAGE;
-
+    createMovieCard(movie) {
+        // 1. استخراج السنة من تاريخ الإصدار (مثلاً من "2025-12-20" نأخذ "2025")
+    const releaseYear = movie.release_date ? movie.release_date.split('-')[0] : '';
+    
+    // 2. الحصول على السنة الحالية ديناميكياً
+    const currentYear = new Date().getFullYear().toString();
+    
+    // 3. التحقق: إذا كانت السنة متطابقة، ننشئ شارة NEW
+    const newBadge = (releaseYear === currentYear) ? `<span class="new-badge">NEW</span>` : "";
+        const isAdded = this.watchlist.some(m => m.id === movie.id);
+        const movieData = JSON.stringify(movie).replace(/"/g, "&quot;");
+        const poster = movie.poster_path ? this.IMAGE_BASE_URL + movie.poster_path : this.FALLBACK_IMAGE;
         return `
             <div class="movie-card" onclick="location.href='details.html?id=${movie.id}'">
-                ${isNew} <button class="watchlist-btn ...">...</button>
+                ${newBadge}
+            <button class="watchlist-btn ...">...</button>
                 <button class="watchlist-btn ${isAdded ? 'active' : ''}" onclick=" event.stopPropagation(); window.movieApp.toggleWatchlist(${movieData}, this)">${isAdded ? '❤️' : '🤍'}</button>
                 <img src="${poster}" class="movie-poster" />
                 <div class="movie-info">
@@ -364,27 +357,27 @@ createMovieCard(movie) {
                     <button class="play-trailer-btn" onclick="window.movieApp.watchTrailer(${movie.id})">▶ Watch Trailer</button>
                 </div>
             </div>`;
-}
+    }
 
-//   createTrendingCard(movie, rank) {
-//         const isAdded = this.watchlist.some(m => m.id === movie.id);
-//         const movieData = JSON.stringify(movie).replace(/"/g, "&quot;");
-//         const poster = movie.poster_path ? this.IMAGE_BASE_URL + movie.poster_path : this.FALLBACK_IMAGE;
+    createTrendingCard(movie, rank) {
+        const isAdded = this.watchlist.some(m => m.id === movie.id);
+        const movieData = JSON.stringify(movie).replace(/"/g, "&quot;");
+        const poster = movie.poster_path ? this.IMAGE_BASE_URL + movie.poster_path : this.FALLBACK_IMAGE;
     
-//         return `
-//             <div class="trending-card">
-//                 <button class="watchlist-btn ${isAdded ? 'active' : ''}" onclick=" event.stopPropagation(); window.movieApp.toggleWatchlist(${movieData}, this)">${isAdded ? '❤️' : '🤍'}</button>
-//                 <img src="${poster}" class="movie-poster" />
-//                 <div class="trending-rank">#${rank}</div>
-//                 <div class="trending-overlay">
-//                     <div class="trending-title">${movie.title}</div>
-//                     <button class="play-trailer-btn" onclick="window.movieApp.watchTrailer(${movie.id})">▶ Watch Trailer</button>
-//                 </div>
-//             </div>`;
-//     }
+        return `
+            <div class="trending-card" onclick="location.href='details.html?id=${movie.id}'">
+                <button class="watchlist-btn ${isAdded ? 'active' : ''}" onclick=" event.stopPropagation(); window.movieApp.toggleWatchlist(${movieData}, this)">${isAdded ? '❤️' : '🤍'}</button>
+                <img src="${poster}" class="movie-poster" />
+                <div class="trending-rank">#${rank}</div>
+                <div class="trending-overlay">
+                    <div class="trending-title">${movie.title}</div>
+                    <button class="play-trailer-btn" onclick="window.movieApp.watchTrailer(${movie.id})">▶ Watch Trailer</button>
+                </div>
+            </div>`;
+    }
 
     clearAllFilter() {
-        const trendingSection = document.getElementById("trendingSection");
+    const trendingSection = document.getElementById("trendingSection");
     const sectionTitle = document.getElementById("randomSectionTitle");
     const clearBtn = document.getElementById("clearBtn");
 
@@ -398,9 +391,9 @@ createMovieCard(movie) {
     // إخفاء زر Clear All وإعادة إظهار الهوم
     clearBtn.classList.remove("show");
     if (trendingSection) trendingSection.style.display = "block";
-    if (sectionTitle) sectionTitle.textContent = "Latest Release";
+    if (sectionTitle) sectionTitle.textContent = "🎲 Random Picks For You";
 
-    this.loadInitialMovies(); // جلب أفلام الهوم العشوائية
+    this.loadRandomMovies(); // جلب أفلام الهوم العشوائية
     }
 
     scrollcarousel(dir) {

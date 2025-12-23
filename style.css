@@ -40,9 +40,15 @@ body {
 
 /* تأكد من تغيير أي لون ثابت (مثل أبيض أو أسود) في الكروت والهيدر ليستخدم هذه المتغيرات */
 
+
+.welcome{
+  font-size: medium;
+  margin-left: 15px;
+  margin-top: 10px;
+}
+
+
 .logo {
-    color:  #AB8BFF;
-    
     font-weight: bold;
     text-decoration: none;
     margin-right: 60px;
@@ -52,12 +58,79 @@ body {
   text-align: center;
 
 }
+.sign{
+    font-weight: bold;
+    font-size: 2.5rem;
+  color: #e50914;
+  text-align: center;
+  margin-top: 100px;
+}
 
 .navbar-background{
 
 background: linear-gradient(to top, rgb(111, 0, 0)  , black);
 
 
+}
+
+
+.sign-up{
+  padding: 5px 10px;
+  border-radius: 30rem;
+  background-color: var(--bg-color);
+  color: #e50914;
+  outline: none;
+  border: solid 1px #333;
+  transition: ease-in-out 0.3s;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+.sign-up:hover{
+
+background-color: #e50914;
+color: var(--text-color);
+transition: ease-in-out 0.3s;
+}
+.login{
+  padding: 5px 10px;
+  border-radius: 30rem;
+  background-color: var(--bg-color);
+  color: #e50914;
+  outline: none;
+  border: solid 1px #333;
+  transition: ease-in-out 0.3s;
+  text-decoration: none;
+}
+
+.login:hover{
+
+background-color: #e50914;
+color: var(--text-color);
+transition: ease-in-out 0.3s;
+}
+
+
+.submit-div{
+  margin: 20px;
+}
+
+.submit{
+    padding: 5px 60px;
+  border-radius: 30rem;
+  background-color: var(--bg-color);
+  color: #e50914;
+  outline: none;
+  border: solid 1px #333;
+  transition: ease-in-out 0.3s;
+  text-decoration: none;
+  font-size: large;
+  
+}
+.submit:hover{
+background-color: #e50914;
+color: var(--text-color);
+transition: ease-in-out 0.3s;
 }
 
 
@@ -100,30 +173,52 @@ font-size: large;
 
 }
 
-.search-icons{
-  margin-top: 7px;
-  margin-right: 10px;
+.signUp-icons{
+  margin-left: 10px;
   font-size: large;
 }
 
 
-.profile-pic{
 
-margin-left: 10px;
 
-}
-
-.more-arrow-profile{
-
-font-size:10px;
-margin-left: 5px;
-
+.form{
+position: relative;
+top: 10vh;
 
 }
 
+.name{
+  padding: 5px 10px;
+  border-radius: 10px;
+  border: var(--btn-watchlist-border) 1px solid;
+  outline: none;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  margin: 10px;
+  transition: ease-in-out 0.3s;
+}
 
+.name:focus{
+  border-color: #e50914;
+  transition: ease-in-out 0.3s;
 
+}
 
+.email{
+  padding: 5px 10px;
+  border-radius: 10px;
+  border: var(--btn-watchlist-border) 1px solid;
+  outline: none;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  margin: 10px;
+  transition: ease-in-out 0.3s;
+  width: 27rem;
+}
+.email:focus{
+  border-color: #e50914;
+  transition: ease-in-out 0.3s;
+}
 
 .filters{
 
@@ -621,7 +716,7 @@ margin-left: 5px;
 }
 
 .theme-btn {
-    background: transparent;
+    background: var(--bg-color);
     border: 1px solid var(--text-color);
     color: var(--text-color);
     font-size: 20px;

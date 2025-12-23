@@ -1,3 +1,20 @@
+
+
+/////////////sign up
+
+document.addEventListener("DOMContentLoaded", () => {
+  const user = JSON.parse(localStorage.getItem("signupUser"));
+
+  if (user && user.username) {
+    document.getElementById("usernameDisplay").textContent = user.username;
+  }
+});
+
+
+
+
+
+
 class KidsMovieExplorer {
     constructor() {
         this.API_KEY = "802e9fa9e93104eec9cf1a368c676d89";
