@@ -38,7 +38,7 @@ class MovieExpLoader {
         await this.loadGenres();
         this.setupYearFilter();
         
-        await this.loadRandomMovies();
+        await this.loadInitialMovies();
         this.setupInfiniteScroll();
     }
 
@@ -93,20 +93,34 @@ class MovieExpLoader {
         }
     }
 
-    async loadRandomMovies() {
-        this.currentPage = 1;
-        this.loader().on();
-        try {
-            const res = await fetch(`${this.BASE_URL}/discover/movie?api_key=${this.API_KEY}&page=1`);
-            const data = await res.json();
-            this.displayMovies(data.results, "moviesGrid");
-        } catch (e){ 
-            console.error(e);
-        }finally{
-            this.loader().off();
-        }
-    }
+    // داخل الكلاس المسؤول عن صفحة Movies
+async loadInitialMovies() {
+    this.loader().on();
+    try {
+        // الحصول على السنة الحالية ديناميكياً
+        const currentYear = new Date().getFullYear(); 
+        
+        // الرابط يركز على أفلام السنة الحالية + ترتيب حسب تاريخ الإصدار التنازلي
+        const url = `${this.BASE_URL}/discover/movie?api_key=${this.API_KEY}` +
+                    `&primary_release_year=${currentYear}` +
+                    `&sort_by=primary_release_date.desc` + 
+                    `&vote_count.gte=50` + // لضمان ظهور أفلام حقيقية ولها تقييمات
+                    `&page=${this.currentPage}`;
 
+        const res = await fetch(url);
+        const data = await res.json();
+        
+        // تغيير عنوان القسم ليعبر عن المحتوى
+        const titleEl = document.getElementById("sectionTitle");
+        if(titleEl) titleEl.textContent = `🆕 New Releases ${currentYear}`;
+
+        this.displayMovies(data.results, "moviesGrid");
+    } catch (e) {
+        console.error("Error loading new releases:", e);
+    } finally {
+        this.loader().off();
+    }
+}
     
 
     // --- نظام البحث والفلترة المطور ---
@@ -299,11 +313,14 @@ class MovieExpLoader {
     }
 
     createMovieCard(movie) {
+        const releaseDate = movie.release_date ? movie.release_date.split('-')[0] : '';
+        const isNew = releaseDate === '2025' ? '<span class="new-badge">NEW</span>' : '';
         const isAdded = this.watchlist.some(m => m.id === movie.id);
         const movieData = JSON.stringify(movie).replace(/"/g, "&quot;");
         const poster = movie.poster_path ? this.IMAGE_BASE_URL + movie.poster_path : this.FALLBACK_IMAGE;
         return `
             <div class="movie-card">
+                ${isNew} <button class="watchlist-btn ...">...</button>
                 <button class="watchlist-btn ${isAdded ? 'active' : ''}" onclick="window.movieApp.toggleWatchlist(${movieData}, this)">${isAdded ? '❤️' : '🤍'}</button>
                 <img src="${poster}" class="movie-poster" />
                 <div class="movie-info">
@@ -348,7 +365,7 @@ class MovieExpLoader {
     if (trendingSection) trendingSection.style.display = "block";
     if (sectionTitle) sectionTitle.textContent = "All Movies";
 
-    this.loadRandomMovies(); // جلب أفلام الهوم العشوائية
+    this.loadInitialMovies(); // جلب أفلام الهوم العشوائية
     }
 
     scrollcarousel(dir) {
