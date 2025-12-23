@@ -59,12 +59,22 @@ class KidsMovieExplorer {
 
     // 3. بناء الكارد (بنفس هيكل صفحة Movies ليعمل الـ CSS)
     createMovieCard(movie) {
+            // 1. استخراج السنة من تاريخ الإصدار (مثلاً من "2025-12-20" نأخذ "2025")
+    const releaseYear = movie.release_date ? movie.release_date.split('-')[0] : '';
+    
+    // 2. الحصول على السنة الحالية ديناميكياً
+    const currentYear = new Date().getFullYear().toString();
+    
+    // 3. التحقق: إذا كانت السنة متطابقة، ننشئ شارة NEW
+    const newBadge = (releaseYear === currentYear) ? `<span class="new-badge">NEW</span>` : "";
         const isAdded = this.watchlist.some(m => m.id === movie.id);
         const movieData = JSON.stringify(movie).replace(/"/g, "&quot;");
         const poster = movie.poster_path ? this.IMAGE_BASE_URL + movie.poster_path : 'https://via.placeholder.com/500x750?text=No+Image';
         
         return `
             <div class="movie-card">
+             ${newBadge}
+            <button class="watchlist-btn ...">...</button>
                 <button class="watchlist-btn ${isAdded ? 'active' : ''}" 
                         onclick="kidsApp.toggleWatchlist(${movieData}, this)">
                         ${isAdded ? '❤️' : '🤍'}

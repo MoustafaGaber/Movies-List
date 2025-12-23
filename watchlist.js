@@ -76,17 +76,31 @@ function renderMovies(movies, query = "") {
         return;
     }
 
-    grid.innerHTML = movies.map(movie => `
-        <div class="movie-card">
-            <button class="watchlist-btn active" onclick="removeFromWatchlist(${movie.id})">❤️</button>
-            <img src="${movie.poster_path ? IMAGE_BASE_URL + movie.poster_path : 'image.png'}" class="movie-poster" />
-            <div class="movie-info">
-                <div class="movie-title">${movie.title}</div>
-                <div class="movie-details"><span>⭐ ${movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}</span></div>
-                <button class="play-trailer-btn" onclick="watchTrailer(${movie.id})">▶ Watch Trailer</button>
+    // الحصول على السنة الحالية
+    const currentYear = new Date().getFullYear().toString();
+
+    grid.innerHTML = movies.map(movie => {
+        // 1. منطق البادج الجديد
+        const releaseYear = movie.release_date ? movie.release_date.split('-')[0] : '';
+        const newBadge = (releaseYear === currentYear) ? `<span class="new-badge">NEW</span>` : "";
+
+        // 2. بناء الكارد
+        return `
+            <div class="movie-card">
+                ${newBadge}
+                <button class="watchlist-btn active" onclick="removeFromWatchlist(${movie.id})">❤️</button>
+                <img src="${movie.poster_path ? IMAGE_BASE_URL + movie.poster_path : 'image.png'}" class="movie-poster" />
+                <div class="movie-info">
+                    <div class="movie-title">${movie.title}</div>
+                    <div class="movie-details">
+                        <span>⭐ ${movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}</span>
+                        <span style="margin-left:10px; opacity:0.7;">${releaseYear}</span>
+                    </div>
+                    <button class="play-trailer-btn" onclick="watchTrailer(${movie.id})">▶ Watch Trailer</button>
+                </div>
             </div>
-        </div>
-    `).join("");
+        `;
+    }).join("");
 }
 
 // 5. حذف فيلم من القائمة
