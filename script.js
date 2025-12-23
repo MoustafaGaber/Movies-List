@@ -349,7 +349,7 @@ class MovieExpLoader {
                 <div class="movie-info">
                     <div class="movie-title">${movie.title}</div>
                     <div class="movie-details"><span>⭐ ${movie.vote_average.toFixed(1)}</span></div>
-                    <button class="play-trailer-btn" onclick="window.movieApp.watchTrailer(${movie.id})">▶ Watch Trailer</button>
+                    <button class="play-trailer-btn" onclick="event.stopPropagation(); window.movieApp.watchTrailer(${movie.id})">▶ Watch Trailer</button>
                 </div>
             </div>`;
     }
@@ -367,7 +367,7 @@ class MovieExpLoader {
                 <div class="trending-rank">#${rank}</div>
                 <div class="trending-overlay">
                     <div class="trending-title">${movie.title}</div>
-                    <button class="play-trailer-btn" onclick="window.movieApp.watchTrailer(${movie.id})">▶ Watch Trailer</button>
+                    <button class="play-trailer-btn" onclick="event.stopPropagation(); window.movieApp.watchTrailer(${movie.id})">▶ Watch Trailer</button>
                 </div>
             </div>`;
     }

@@ -117,7 +117,7 @@ function renderMovies(movies, query = "") {
                         <span>⭐ ${movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}</span>
                         <span style="margin-left:10px; opacity:0.7;">${releaseYear}</span>
                     </div>
-                    <button class="play-trailer-btn" onclick="watchTrailer(${movie.id})">▶ Watch Trailer</button>
+                    <button class="play-trailer-btn" onclick="event.stopPropagation(); watchTrailer(${movie.id})">▶ Watch Trailer</button>
                 </div>
             </div>
         `;

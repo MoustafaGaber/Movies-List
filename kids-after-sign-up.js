@@ -103,7 +103,7 @@ class KidsMovieExplorer {
                         <span>⭐ ${movie.vote_average.toFixed(1)}</span>
                         <span style="color: #e50914; font-weight:bold;">KIDS</span>
                     </div>
-                    <button class="play-trailer-btn" onclick="kidsApp.watchTrailer(${movie.id})">▶ Watch Trailer</button>
+                    <button class="play-trailer-btn" onclick="event.stopPropagation(); kidsApp.watchTrailer(${movie.id})">▶ Watch Trailer</button>
                 </div>
             </div>`;
     }
