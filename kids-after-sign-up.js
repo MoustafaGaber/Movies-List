@@ -37,7 +37,7 @@ class KidsMovieExplorer {
         await this.loadKidsMovies();
         this.setupInfiniteScroll();
         this.setupSearch();
-         this.setupModalClose();
+        this.setupModalClose();
     }
 
     // 1. جلب أفلام الأطفال من الـ API
@@ -201,7 +201,7 @@ setupThemeToggle() {
         const loader = document.getElementById("loader");
         if (loader) loader.classList.toggle("active", show);
     }
-    setupModalClose() {
+  setupModalClose() {
     const modal = document.getElementById("trailerModal");
     const closeBtn = document.querySelector(".close-modal");
     const videoContainer = document.getElementById("videoContainer");
