@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kids World - Movie List</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-background fixed-top" style="position: fixed; top: 0; width: 100%; z-index: 1000; padding: 10px 0;">
+        <div class="search-container" style="display: flex; align-items: center; justify-content: space-around; width: 95%; margin: auto;">
+            
+            <a href="index.html" class="logo" style="text-decoration: none;">MOVIE LIST</a>
+
+            <div class="filters">
+                <a href="index.html" class="nav-item color" style="margin-right: 20px; text-decoration: none;">Home</a>
+                <a href="movies.html" class="nav-item color" style="margin-right: 20px; text-decoration: none;">Movies</a>
+                <a href="kids.html" class="nav-item color" style="margin-right: 20px; text-decoration: none; border-bottom: 2px solid #e50914;">Kids</a>
+            </div>
+
+            <div class="search-box">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search for animation movies...">
+            </div>
+
+            <div class="header-actions">
+                <a href="watchlist.html" class="watchlist-nav-btn">
+                    ❤️ Watchlist <span id="watchlistCount">0</span>
+                </a>
+                <button id="themeToggle" class="theme-btn">☀️</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <header style="margin-bottom: 30px;">
+            <h1 class="section-title">👶 Kids & Family Animation</h1>
+            <p style="color: var(--text-color); opacity: 0.8;">Explore the best safe and fun movies for your children.</p>
+        </header>
+
+        <div class="movies-grid" id="moviesGrid">
+            </div>
+
+        <div id="loader" class="spinner" style="display: none; justify-content: center; padding: 50px;">
+            <div class="loader"></div>
+        </div>
+    </main>
+
+    <div id="trailerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="videoContainer"></div>
+        </div>
+    </div>
+
+    <script src="kids.js"></script>
+    
+    <script>
+        function adjustPadding() {
+            const nav = document.querySelector('.navbar');
+            document.body.style.paddingTop = (nav.offsetHeight + 20) + 'px';
+        }
+        window.onload = adjustPadding;
+        window.onresize = adjustPadding;
+    </script>
+
+</body>
+</html>
