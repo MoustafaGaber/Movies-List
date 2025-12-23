@@ -10,20 +10,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+////////////////////////
 
 
 
@@ -49,7 +36,7 @@ class MovieExpLoader {
         this.setupEventListeners();
         await this.loadGenres();
         this.setupYearFilter();
-        await this.loadTrendingMovies();
+        
         await this.loadRandomMovies();
         this.setupInfiniteScroll();
         this.updateWatchlistCount();
@@ -120,26 +107,12 @@ class MovieExpLoader {
         }
     }
 
-    async loadTrendingMovies() {
-        this.loader().on();
-        try {
-            
-            const res = await fetch(`${this.BASE_URL}/trending/movie/week?api_key=${this.API_KEY}`);
-            const data = await res.json();
-            const carousel = document.getElementById("trendingCarousel");
-            if (carousel) carousel.innerHTML = data.results.slice(0, 10).map((m, i) => this.createTrendingCard(m, i + 1)).join("");
-        } catch (e) {
-             console.error(e); 
-
-        }finally{
-            this.loader().off();
-        }
-    }
+    
 
     // --- نظام البحث والفلترة المطور ---
     async handleSearch(query) {
         this.currentPage = 1;
-        const trendingSection = document.getElementById("trendingSection");
+
         const sectionTitle = document.getElementById("randomSectionTitle");
 
         if (!query) {
@@ -148,7 +121,6 @@ class MovieExpLoader {
         }
 
         document.getElementById("clearBtn")?.classList.add("show");
-        trendingSection.style.display = "none";
         sectionTitle.textContent = `🔍 Search Results: "${query}"`;
 
         try {
@@ -173,7 +145,7 @@ class MovieExpLoader {
         if (query) {
             this.handleSearch(query);
         } else {
-            document.getElementById("trendingSection").style.display = (this.currentFilter.genre || this.currentFilter.year) ? "none" : "block";
+            // document.getElementById("trendingSection").style.display = (this.currentFilter.genre || this.currentFilter.year) ? "none" : "block";
             this.loadFilterMovies();
         }
         document.getElementById("clearBtn")?.classList.add("show");
@@ -360,7 +332,7 @@ class MovieExpLoader {
     }
 
     clearAllFilter() {
-    const trendingSection = document.getElementById("trendingSection");
+        const trendingSection = document.getElementById("trendingSection");
     const sectionTitle = document.getElementById("randomSectionTitle");
     const clearBtn = document.getElementById("clearBtn");
 
@@ -374,7 +346,7 @@ class MovieExpLoader {
     // إخفاء زر Clear All وإعادة إظهار الهوم
     clearBtn.classList.remove("show");
     if (trendingSection) trendingSection.style.display = "block";
-    if (sectionTitle) sectionTitle.textContent = "🎲 Random Picks For You";
+    if (sectionTitle) sectionTitle.textContent = "All Movies";
 
     this.loadRandomMovies(); // جلب أفلام الهوم العشوائية
     }

@@ -4,15 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movies Flix List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="header">
-        <div class="logo"  style="cursor: pointer;"  >🎬 Movies List</div>
-        <div class="search-container">
-            <div class="search-box">
+<nav class="navbar navbar-expand-lg bg-black fixed-top navbar-background">
+  <div class="container-fluid ">
+    <a href="#" class="logo" onclick="window.movieApp.clearAllFilter()" style="cursor: pointer;">Movie list</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon" style="color: white;"></span>
+    </button>
+    <div class="collapse navbar-collapse div-navbar-ul" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item ">
+          <a class="nav-link active text-white" aria-current="page" href="#">Home</a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link color" href="movies.html">Movies</a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link color" href="#">New & Popular</a>
+        </li>
+        <li class="nav-item flex">
+          <a class="nav-link color" id="watchListNavBtn" href="watchlist.html">My Watch List</a> <span id="watchlistCount"> 0</span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link color" href="#">Kids</a>
+        </li>
+       
+      </ul>
+      
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 margin-second-ul">
+           <li class="nav-item">
+          <div class="search-box">
                 <input class="search-input" type="text" id="searchInput" placeholder="Search for movies...">
             </div>
+            </li>
+
+        <li class="nav-item icons">
+          <i class="fa-regular fa-bell" id="notifications"></i>
+        </li>
+        <li class="nav-item search-icons">
+          <div class="profile-pic">
+            <img src="image.png" alt="profile" width="30px" style="border-radius: 3px;">
+            <i class="fa-solid fa-caret-down more-arrow-profile" id="downwardProfile"></i>
+          </div>
+        </li>
+
+
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="filters">
+ <div class="search-container">
+          
             <div class="filters">
                 <select id="genreFilter">
                     <option value="">All Genres</option>
@@ -27,23 +79,21 @@
                     <option value="vote_average.desc">Highest Rated</option>
                     <option value="release_date.desc">Latest Release</option>
                     <option value="title.asc">A-Z</option>
-                </select>   
+                </select>  
             </div>
             <div class="header-actions">
                 <button class="clear-btn" id="clearBtn">Clear All</button>
-                  <a href="watchlist.html" class="watchlist-nav-btn" id="watchListNavBtn" >
-                  ❤️ My Watchlist <span id="watchlistCount"> 0</span>
-</a>
                 <button id="themeToggle" class="theme-btn">🌓</button>
             </div>
         </div>
         
     </div>
+    </div>
     <div class="main-content">
         <div id="trendingSection">
-            <div class="section-title">🔥 Trending Now</div>
+            <div class="section-title">Trending Now</div>
             <div class="carousel-container">
-                <button class="carousel-btn prev-btn" id="trendingPrev">＞</button>
+                <button class="carousel-btn prev-btn" id="trendingPrev"> < </button>
                 <div class="carousel" id="trendingCarousel">
                     <!-- Trending movies will be dynamically inserted here -->
                       <!-- spinner -->
@@ -54,11 +104,11 @@
                      <!-- <div class="loading">Loading trending movies...</div> -->
 
                 </div>
-                <button class="carousel-btn next-btn" id="trendingNext">＜</button>
+                <button class="carousel-btn next-btn" id="trendingNext"> ＞ </button>
             </div>
         </div>
         <div class="section-title" id="randomSectionTitle">
-            🎲 Random Picks For You
+            Random Picks For You
         </div>
 
         <div class="movies-grid" id="moviesGrid">
@@ -72,7 +122,7 @@
      
     <section id="watchlistPage" class="hidden-section" style="display: none;">
     <div class="section-header">
-        <h2 id="watchlistTitle">❤️ My Private Collection</h2>
+        <h2 id="watchlistTitle">My Private Collection</h2>
         <button onclick="window.movieApp.clearAllFilter()" class="back-btn">⬅ Back to Home</button>
     </div>
     <div id="watchlistGrid" class="movies-grid">
@@ -87,5 +137,6 @@
 </div>
     
    <script src="script.js" type="module"></script> 
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>
