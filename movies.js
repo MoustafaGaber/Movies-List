@@ -321,7 +321,7 @@ async loadInitialMovies() {
         return `
             <div class="movie-card" onclick="location.href='details.html?id=${movie.id}'">
                 ${isNew} <button class="watchlist-btn ...">...</button>
-                <button class="watchlist-btn ${isAdded ? 'active' : ''}" onclick="window.movieApp.toggleWatchlist(${movieData}, this)">${isAdded ? '❤️' : '🤍'}</button>
+                <button class="watchlist-btn ${isAdded ? 'active' : ''}" onclick="event.stopPropagation(); window.movieApp.toggleWatchlist(${movieData}, this)">${isAdded ? '❤️' : '🤍'}</button>
                 <img src="${poster}" class="movie-poster" />
                 <div class="movie-info">
                     <div class="movie-title">${movie.title}</div>
