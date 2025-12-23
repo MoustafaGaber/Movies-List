@@ -59,6 +59,7 @@ class MovieExpLoader {
         await this.loadTrendingMovies();
         await this.loadRandomMovies();
         this.setupInfiniteScroll();
+         this.setupModalClose();
        
     }
 
@@ -354,7 +355,7 @@ class MovieExpLoader {
                 <div class="movie-info">
                     <div class="movie-title">${movie.title}</div>
                     <div class="movie-details"><span>⭐ ${movie.vote_average.toFixed(1)}</span></div>
-                    <button class="play-trailer-btn" onclick="window.movieApp.watchTrailer(${movie.id})">▶ Watch Trailer</button>
+                    <button class="play-trailer-btn" onclick="event.stopPropagation(); window.movieApp.watchTrailer(${movie.id})">▶ Watch Trailer</button>
                 </div>
             </div>`;
     }
@@ -371,7 +372,7 @@ class MovieExpLoader {
                 <div class="trending-rank">#${rank}</div>
                 <div class="trending-overlay">
                     <div class="trending-title">${movie.title}</div>
-                    <button class="play-trailer-btn" onclick="window.movieApp.watchTrailer(${movie.id})">▶ Watch Trailer</button>
+                    <button class="play-trailer-btn" onclick="event.stopPropagation(); window.movieApp.watchTrailer(${movie.id})">▶ Watch Trailer</button>
                 </div>
             </div>`;
     }
@@ -442,7 +443,25 @@ loader() {
     };
 }
 
+setupModalClose() {
+    const modal = document.getElementById("trailerModal");
+    const closeBtn = document.querySelector(".close-modal");
+    const videoContainer = document.getElementById("videoContainer");
 
+    // إغلاق عند الضغط على زر X
+    closeBtn?.addEventListener("click", () => {
+        modal.style.display = "none";
+        videoContainer.innerHTML = ""; // مهم جداً لإيقاف صوت الفيديو
+    });
+
+    // إغلاق عند الضغط خارج نافذة الفيديو
+    window.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            modal.style.display = "none";
+            videoContainer.innerHTML = "";
+        }
+    });
+}
 
 }
 
