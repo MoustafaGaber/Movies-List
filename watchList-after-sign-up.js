@@ -1,3 +1,24 @@
+
+
+
+
+
+
+
+//////sign up
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const user = JSON.parse(localStorage.getItem("signupUser"));
+
+  if (user && user.username) {
+    document.getElementById("usernameDisplay").textContent = user.username;
+  }
+});
+
+
+
 /**
  * Watchlist Page Logic
  * ميزة البحث الفوري والتحكم في القائمة الخاصة
@@ -89,7 +110,6 @@ function renderMovies(movies, query = "") {
             <div class="movie-card" onclick="location.href='details.html?id=${movie.id}'">
                 ${newBadge}
                 <button class="watchlist-btn active" onclick=" event.stopPropagation(); removeFromWatchlist(${movie.id})">❤️</button>
-                <button class="watchlist-btn active" onclick="event.stopPropagation(); removeFromWatchlist(${movie.id})">❤️</button>
                 <img src="${movie.poster_path ? IMAGE_BASE_URL + movie.poster_path : 'image.png'}" class="movie-poster" />
                 <div class="movie-info">
                     <div class="movie-title">${movie.title}</div>

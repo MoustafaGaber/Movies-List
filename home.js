@@ -14,7 +14,13 @@
 
 
 
+document.addEventListener("DOMContentLoaded", () => {
+  const user = JSON.parse(localStorage.getItem("signupUser"));
 
+  if (user && user.username) {
+    document.getElementById("usernameDisplay").textContent = user.username;
+  }
+});
 
 
 
@@ -344,7 +350,6 @@ class MovieExpLoader {
                 ${newBadge}
             <button class="watchlist-btn ...">...</button>
                 <button class="watchlist-btn ${isAdded ? 'active' : ''}" onclick=" event.stopPropagation(); window.movieApp.toggleWatchlist(${movieData}, this)">${isAdded ? '❤️' : '🤍'}</button>
-                <button class="watchlist-btn ${isAdded ? 'active' : ''}"  onclick=" event.stopPropagation(); window.movieApp.toggleWatchlist(${movieData}, this)">${isAdded ? '❤️' : '🤍'}</button>
                 <img src="${poster}" class="movie-poster" />
                 <div class="movie-info">
                     <div class="movie-title">${movie.title}</div>
@@ -362,7 +367,6 @@ class MovieExpLoader {
         return `
             <div class="trending-card" onclick="location.href='details.html?id=${movie.id}'">
                 <button class="watchlist-btn ${isAdded ? 'active' : ''}" onclick=" event.stopPropagation(); window.movieApp.toggleWatchlist(${movieData}, this)">${isAdded ? '❤️' : '🤍'}</button>
-                <button class="watchlist-btn ${isAdded ? 'active' : ''}" onclick="event.stopPropagation(); window.movieApp.toggleWatchlist(${movieData}, this)">${isAdded ? '❤️' : '🤍'}</button>
                 <img src="${poster}" class="movie-poster" />
                 <div class="trending-rank">#${rank}</div>
                 <div class="trending-overlay">

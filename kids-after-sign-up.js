@@ -1,3 +1,20 @@
+
+
+/////////////sign up
+
+document.addEventListener("DOMContentLoaded", () => {
+  const user = JSON.parse(localStorage.getItem("signupUser"));
+
+  if (user && user.username) {
+    document.getElementById("usernameDisplay").textContent = user.username;
+  }
+});
+
+
+
+
+
+
 class KidsMovieExplorer {
     constructor() {
         this.API_KEY = "802e9fa9e93104eec9cf1a368c676d89";
@@ -72,13 +89,11 @@ class KidsMovieExplorer {
         const poster = movie.poster_path ? this.IMAGE_BASE_URL + movie.poster_path : 'https://via.placeholder.com/500x750?text=No+Image';
         
          return `
-        return `
             <div class="movie-card" onclick="location.href='details.html?id=${movie.id}'">
              ${newBadge}
             <button class="watchlist-btn ...">...</button>
                 <button class="watchlist-btn ${isAdded ? 'active' : ''}" 
                         onclick=" event.stopPropagation(); kidsApp.toggleWatchlist(${movieData}, this)">
-                        onclick="event.stopPropagation(); kidsApp.toggleWatchlist(${movieData}, this)">
                         ${isAdded ? '❤️' : '🤍'}
                 </button>
                 <img src="${poster}" class="movie-poster" />
