@@ -7,6 +7,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* تنسيقات خاصة بصفحة التفاصيل لتكون أكثر جمالاً */
         .hero-section {
@@ -18,6 +20,7 @@
             align-items: flex-end;
             padding: 50px;
             
+            margin-top: 60px;
         }
         .hero-overlay {
             position: absolute;
@@ -95,6 +98,15 @@
   </div>
 </nav>
 
+    <nav class="navbar navbar-background fixed-top">
+        <div class="search-container" style="width: 95%; margin: auto; display: flex; align-items: center; justify-content: space-between;">
+            <a href="index.html" class="logo">MOVIE LIST</a>
+            <div class="header-actions">
+                <button id="themeToggle" class="theme-btn" style="margin-right: 15px;">☀️</button>
+                <button onclick="history.back()" class="watchlist-nav-btn">← Back</button>
+            </div>
+        </div>
+    </nav>
 
     <div id="movieDetails">
         </div>

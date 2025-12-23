@@ -89,6 +89,7 @@ function renderMovies(movies, query = "") {
             <div class="movie-card" onclick="location.href='details.html?id=${movie.id}'">
                 ${newBadge}
                 <button class="watchlist-btn active" onclick=" event.stopPropagation(); removeFromWatchlist(${movie.id})">❤️</button>
+                <button class="watchlist-btn active" onclick="event.stopPropagation(); removeFromWatchlist(${movie.id})">❤️</button>
                 <img src="${movie.poster_path ? IMAGE_BASE_URL + movie.poster_path : 'image.png'}" class="movie-poster" />
                 <div class="movie-info">
                     <div class="movie-title">${movie.title}</div>
