@@ -59,39 +59,35 @@ class KidsMovieExplorer {
 
     // 3. بناء الكارد (بنفس هيكل صفحة Movies ليعمل الـ CSS)
     createMovieCard(movie) {
-            // 1. استخراج السنة من تاريخ الإصدار (مثلاً من "2025-12-20" نأخذ "2025")
+    // 1. منطق البادج الذكي (2025)
     const releaseYear = movie.release_date ? movie.release_date.split('-')[0] : '';
-    
-    // 2. الحصول على السنة الحالية ديناميكياً
     const currentYear = new Date().getFullYear().toString();
-    
-    // 3. التحقق: إذا كانت السنة متطابقة، ننشئ شارة NEW
     const newBadge = (releaseYear === currentYear) ? `<span class="new-badge">NEW</span>` : "";
-        const isAdded = this.watchlist.some(m => m.id === movie.id);
-        const movieData = JSON.stringify(movie).replace(/"/g, "&quot;");
-        const poster = movie.poster_path ? this.IMAGE_BASE_URL + movie.poster_path : 'https://via.placeholder.com/500x750?text=No+Image';
-        
-         return `
-        return `
-            <div class="movie-card" onclick="location.href='details.html?id=${movie.id}'">
-             ${newBadge}
-            <button class="watchlist-btn ...">...</button>
-                <button class="watchlist-btn ${isAdded ? 'active' : ''}" 
-                        onclick=" event.stopPropagation(); kidsApp.toggleWatchlist(${movieData}, this)">
-                        onclick="event.stopPropagation(); kidsApp.toggleWatchlist(${movieData}, this)">
-                        ${isAdded ? '❤️' : '🤍'}
-                </button>
-                <img src="${poster}" class="movie-poster" />
-                <div class="movie-info">
-                    <div class="movie-title">${movie.title}</div>
-                    <div class="movie-details">
-                        <span>⭐ ${movie.vote_average.toFixed(1)}</span>
-                        <span style="color: #e50914; font-weight:bold;">KIDS</span>
-                    </div>
-                    <button class="play-trailer-btn" onclick="kidsApp.watchTrailer(${movie.id})">▶ Watch Trailer</button>
+
+    // 2. التحقق من وجود الفيلم في المفضلات
+    const isAdded = this.watchlist.some(m => m.id === movie.id);
+    const movieData = JSON.stringify(movie).replace(/"/g, "&quot;");
+    const poster = movie.poster_path ? this.IMAGE_BASE_URL + movie.poster_path : 'https://via.placeholder.com/500x750?text=No+Image';
+
+    // 3. بناء الكارد مع منع انتشار الحدث (event.stopPropagation)
+    return `
+        <div class="movie-card" onclick="location.href='details.html?id=${movie.id}'">
+            ${newBadge}
+            <button class="watchlist-btn ${isAdded ? 'active' : ''}" 
+                    onclick="event.stopPropagation(); kidsApp.toggleWatchlist(${movieData}, this)">
+                    ${isAdded ? '❤️' : '🤍'}
+            </button>
+            <img src="${poster}" class="movie-poster" />
+            <div class="movie-info">
+                <div class="movie-title">${movie.title}</div>
+                <div class="movie-details">
+                    <span>⭐ ${movie.vote_average.toFixed(1)}</span>
+                    <span style="color: #e50914; font-weight:bold;">KIDS</span>
                 </div>
-            </div>`;
-    }
+                <button class="play-trailer-btn" onclick="event.stopPropagation(); kidsApp.watchTrailer(${movie.id})">▶ Watch Trailer</button>
+            </div>
+        </div>`;
+}
 
     // 4. البحث المخصص للأطفال فقط
     setupSearch() {
