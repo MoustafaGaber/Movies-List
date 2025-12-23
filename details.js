@@ -2,6 +2,37 @@ const API_KEY = "802e9fa9e93104eec9cf1a368c676d89";
 const BASE_URL = "https://api.themoviedb.org/3";
 const IMG_URL = "https://image.tmdb.org/t/p/original";
 
+
+
+// استدعاء هذه الدالة عند تحميل الصفحة
+document.addEventListener("DOMContentLoaded", () => {
+    initTheme(); // تفعيل الثيم
+    const urlParams = new URLSearchParams(window.location.search);
+    const movieId = urlParams.get('id');
+    if (movieId) fetchMovieDetails(movieId);
+});
+
+function initTheme() {
+    const themeBtn = document.getElementById("themeToggle");
+    const htmlElement = document.documentElement;
+    
+    // جلب الثيم المحفوظ أو استخدام Dark كافتراضي
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    htmlElement.setAttribute("data-theme", savedTheme);
+    if (themeBtn) themeBtn.innerHTML = savedTheme === "dark" ? "☀️" : "🌙";
+
+    themeBtn?.addEventListener("click", () => {
+        const currentTheme = htmlElement.getAttribute("data-theme");
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
+        
+        htmlElement.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+        themeBtn.innerHTML = newTheme === "dark" ? "☀️" : "🌙";
+    });
+}
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
     // الحصول على ID الفيلم من الرابط
     const urlParams = new URLSearchParams(window.location.search);
