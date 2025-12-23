@@ -331,7 +331,7 @@ class MovieExpLoader {
     }
 
     clearAllFilter() {
-        const trendingSection = document.getElementById("trendingSection");
+    const trendingSection = document.getElementById("trendingSection");
     const sectionTitle = document.getElementById("randomSectionTitle");
     const clearBtn = document.getElementById("clearBtn");
 
